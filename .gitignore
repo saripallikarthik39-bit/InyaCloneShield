@@ -1,0 +1,21 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+
+# Environment Variables & IDE
+.env
+.vscode/
+.idea/
+.DS_Store
+
+# Static recorded voice samples (keep sample audios)
+# static/audio/custom_*.wav

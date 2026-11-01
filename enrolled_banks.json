@@ -1,0 +1,42 @@
+{
+  "hdfc": {
+    "bank_id": "hdfc",
+    "bank_name": "HDFC Bank",
+    "enrolled_name": "Ramesh Kumar",
+    "account_number": "501004291823",
+    "balance": "\u20b942,850",
+    "pitch": 142.0,
+    "spectral_centroid": 1720.0,
+    "enrolled_date": "01-Nov-2026 10:00:00"
+  },
+  "sbi": {
+    "bank_id": "sbi",
+    "bank_name": "State Bank of India (SBI)",
+    "enrolled_name": "karthik",
+    "account_number": "501004291823",
+    "balance": "\u20b918,400",
+    "pitch": 150.0,
+    "spectral_centroid": 1800.0,
+    "enrolled_date": "01-Nov-2026 10:51:47"
+  },
+  "icici": {
+    "bank_id": "icici",
+    "bank_name": "ICICI Bank",
+    "enrolled_name": "Priya Sharma",
+    "account_number": "002401568912",
+    "balance": "\u20b965,200",
+    "pitch": 210.0,
+    "spectral_centroid": 2150.0,
+    "enrolled_date": "01-Nov-2026 10:00:00"
+  },
+  "rural_bank": {
+    "bank_id": "rural_bank",
+    "bank_name": "Andhra Pragathi Grameena Bank (APGB)",
+    "enrolled_name": "Venkateswarlu (\u0c30\u0c48\u0c24\u0c41 / Farmer)",
+    "account_number": "194002348102",
+    "balance": "\u20b98,650",
+    "pitch": 130.0,
+    "spectral_centroid": 1600.0,
+    "enrolled_date": "01-Nov-2026 10:00:00"
+  }
+}

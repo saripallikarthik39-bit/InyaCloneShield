@@ -1,0 +1,76 @@
+[
+  {
+    "id": "usr_hdfc_01",
+    "bank_id": "hdfc",
+    "bank_name": "HDFC Bank",
+    "enrolled_name": "Ramesh Kumar",
+    "account_number": "501004291823",
+    "mobile_number": "+91 98480 22338",
+    "balance": "₹42,850",
+    "pitch": 138.5,
+    "spectral_centroid": 1680.0,
+    "enrolled_date": "01-Nov-2026 09:30:00"
+  },
+  {
+    "id": "usr_sbi_01",
+    "bank_id": "sbi",
+    "bank_name": "State Bank of India (SBI)",
+    "enrolled_name": "Suresh Reddy",
+    "account_number": "304812904511",
+    "mobile_number": "+91 94401 55677",
+    "balance": "₹18,400",
+    "pitch": 165.0,
+    "spectral_centroid": 1840.0,
+    "enrolled_date": "01-Nov-2026 10:15:00"
+  },
+  {
+    "id": "usr_icici_01",
+    "bank_id": "icici",
+    "bank_name": "ICICI Bank",
+    "enrolled_name": "Priya Sharma",
+    "account_number": "002401568912",
+    "mobile_number": "+91 98200 44119",
+    "balance": "₹65,200",
+    "pitch": 215.0,
+    "spectral_centroid": 2150.0,
+    "enrolled_date": "01-Nov-2026 10:45:00"
+  },
+  {
+    "id": "usr_apgb_01",
+    "bank_id": "rural_bank",
+    "bank_name": "Andhra Pragathi Grameena Bank (APGB)",
+    "enrolled_name": "Venkateswarlu (రైతు)",
+    "account_number": "194002348102",
+    "mobile_number": "+91 97012 33445",
+    "balance": "₹8,650",
+    "pitch": 128.0,
+    "spectral_centroid": 1590.0,
+    "enrolled_date": "01-Nov-2026 11:00:00"
+  },
+  {
+    "id": "usr_hdfc_84704",
+    "bank_id": "hdfc",
+    "bank_name": "HDFC Bank",
+    "enrolled_name": "karthik",
+    "account_number": "304899120033",
+    "mobile_number": "+91 7095411716",
+    "balance": "₹35,000",
+    "pitch": 170.0,
+    "spectral_centroid": 1224.8,
+    "audio_url": "/static/audio/usr_hdfc_84704_voice.wav",
+    "enrolled_date": "01-Nov-2026 11:26:24"
+  },
+  {
+    "id": "usr_hdfc_16311",
+    "bank_id": "hdfc",
+    "bank_name": "HDFC Bank",
+    "enrolled_name": "sariaplli",
+    "account_number": "304899120033",
+    "mobile_number": "+91 7095411716",
+    "balance": "₹35,000",
+    "pitch": 170.0,
+    "spectral_centroid": 1224.8,
+    "audio_url": "/static/audio/usr_hdfc_16311_voice.wav",
+    "enrolled_date": "01-Nov-2026 11:26:56"
+  }
+]

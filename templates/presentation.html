@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inya-CloneShield | Enterprise Pitch Deck</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            bg: '#050811',
+                            card: '#0c1222',
+                            border: '#1e293b',
+                            accent: '#06b6d4',
+                            purple: '#8b5cf6',
+                            emerald: '#10b981'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050811;
+            color: #f1f5f9;
+            font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+            overflow: hidden;
+        }
+        .slide-container {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-between p-6 select-none">
+
+    <!-- TOP HEADER -->
+    <header class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center font-black text-white text-base shadow-lg shadow-cyan-500/20">
+                🛡️
+            </div>
+            <div>
+                <h1 class="text-sm font-extrabold text-white tracking-wide flex items-center gap-2">
+                    Inya-CloneShield <span class="text-[9px] px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800 font-mono">Gnani.ai Pitch Deck</span>
+                </h1>
+                <p class="text-[11px] text-slate-400 font-mono">Autonomous Multi-Bank Voice Biometrics & armour365™ Defense Engine</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3 font-mono text-xs">
+            <button id="notes-toggle-btn" onclick="toggleSpeakerNotes()" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400 text-slate-300 flex items-center gap-1.5 transition">
+                <i data-lucide="message-square" class="w-3.5 h-3.5 text-cyan-400"></i>
+                <span id="notes-btn-text">Show Speaker Notes (S)</span>
+            </button>
+            <a href="/" target="_blank" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-bold flex items-center gap-1.5 shadow-lg shadow-cyan-950/50 transition">
+                <span>🚀 Live Telephony Demo</span>
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            </a>
+            <div class="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-cyan-400 font-bold">
+                Slide <span id="current-slide-num">1</span> / <span id="total-slides-num">10</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN SLIDE VIEWER -->
+    <main class="flex-1 flex items-center justify-center relative overflow-hidden py-4">
+
+        <!-- SLIDE 1: TITLE & EXECUTIVE SUMMARY -->
+        <div class="slide-container w-full max-w-5xl h-full flex flex-col justify-center" data-slide="1">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-xs font-mono mb-4 w-fit">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                <span>BHARAT TELEPHONY BIOMETRICS LAB • GNANI HACKATHON 2026</span>
+            </div>
+            <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight mb-4">
+                Inya-CloneShield: <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-400">
+                    Voice Biometrics & Red-Teaming
+                </span>
+            </h1>
+            <p class="text-base text-slate-300 max-w-3xl mb-8 leading-relaxed">
+                An autonomous telephony defense system protecting Indian banking voice AI from <b>Deepfake Voice Clones</b> and <b>Human Impostors</b> using real-time vocal tract formants ($F_1, F_2$) and fundamental pitch ($F_0$) under 8kHz G.711 telecom compression.
+            </p>
+            <div class="grid grid-cols-4 gap-4 text-xs font-mono">
+                <div class="p-3 bg-slate-950/80 border border-slate-800 rounded-xl">
+                    <div class="text-slate-400">Core Biometrics</div>
+                    <div class="text-cyan-400 font-bold text-sm mt-0.5">armour365™ Radar</div>
+                </div>
+                <div class="p-3 bg-slate-950/80 border border-slate-800 rounded-xl">
+                    <div class="text-slate-400">Speech Engine</div>
+                    <div class="text-purple-400 font-bold text-sm mt-0.5">Gnani Prisma v2.5</div>
+                </div>
+                <div class="p-3 bg-slate-950/80 border border-slate-800 rounded-xl">
+                    <div class="text-slate-400">Turnaround SLA</div>
+                    <div class="text-emerald-400 font-bold text-sm mt-0.5">&lt;350ms Latency</div>
+                </div>
+                <div class="p-3 bg-slate-950/80 border border-slate-800 rounded-xl">
+                    <div class="text-slate-400">Multi-Bank Stack</div>
+                    <div class="text-amber-400 font-bold text-sm mt-0.5">HDFC • SBI • ICICI • APGB</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: THE CORE PROBLEM -->
+        <div class="slide-container w-full max-w-5xl h-full flex flex-col justify-center hidden" data-slide="2">
+            <div class="text-xs font-mono text-red-400 uppercase tracking-widest mb-2">The Critical Threat Landscape</div>
+            <h2 class="text-3xl sm:text-5xl font-black text-white mb-6">Why Indian Voice Banking is Vulnerable</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="p-5 bg-red-950/20 border border-red-900/40 rounded-2xl">
+                    <div class="flex items-center gap-2 text-red-400 font-bold text-sm mb-2">
+                        <i data-lucide="bot" class="w-5 h-5"></i>
+                        <span>1. AI Voice Clone Clones (Vocoders)</span>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        With just 3 seconds of leaked audio from social media or WhatsApp, generative AI models can clone a victim's exact tone. Scammers use these clones over telephony to request urgent transfers.
+                    </p>
+                </div>
+                <div class="p-5 bg-amber-950/20 border border-amber-900/40 rounded-2xl">
+                    <div class="flex items-center gap-2 text-amber-400 font-bold text-sm mb-2">
+                        <i data-lucide="users" class="w-5 h-5"></i>
+                        <span>2. The "Two Humans" Challenge</span>
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        A real human caller speaking with a stolen account number. Traditional Speech Recognition (ASR) only understands <b>WHAT</b> is spoken; it fails to verify <b>WHO</b> physically spoke it.
+                    </p>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-slate-400">
+                ⚠️ <b>Telemetry Reality:</b> 8kHz G.711 compression strips high frequencies, making software-only defenses fail unless physical vocal tract biological formants are evaluated.
+            </div>
+        </div>
+
+        <!-- SLIDE 3: OUR SOLUTION ARCHITECTURE -->
+        <div class="slide-container w-full max-w-5xl h-full flex flex-col justify-center hidden" data-slide="3">
+            <div class="text-xs font-mono text-cyan-400 uppercase tracking-widest mb-2">Technical Core</div>
+            <h2 class="text-3xl sm:text-5xl font-black text-white mb-5">Dual-Layer Biometric Defense Engine</h2>
+            
+            <div class="grid grid-cols-2 gap-4 mb-6 text-xs font-mono">
+                <div class="p-5 bg-slate-950 border border-cyan-500/40 rounded-2xl">
+                    <div class="text-cyan-400 font-bold text-sm mb-2">Layer 1: Biological Vocal Tract Liveness</div>
+                    <p class="text-slate-300 leading-relaxed mb-3">
+                        Detects physical lung air pressure and oral tissue resonance. AI deepfakes lack physical liveness and drop to ~12% score.
+                    </p>
+                    <div class="px-2.5 py-1 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 w-fit">
+                        ISO/IEC 30107-3 PAD Compliant
+                    </div>
+                </div>
+
+                <div class="p-5 bg-slate-950 border border-purple-500/40 rounded-2xl">
+                    <div class="text-purple-400 font-bold text-sm mb-2">Layer 2: armour365 1:1 Voiceprint Match</div>
+                    <p class="text-slate-300 leading-relaxed mb-3">
+                        Extracts fundamental pitch ($F_0$) and spectral formants. Even with a stolen account number, an impostor's voiceprint mismatches (&lt;72%).
+                    </p>
+                    <div class="px-2.5 py-1 rounded bg-purple-950 text-purple-300 border border-purple-800 w-fit">
+                        Acoustic Formants Distance Engine
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-3.5 bg-indigo-950/30 border border-indigo-900/50 rounded-xl text-xs font-mono text-indigo-200">
+                ⚡ <b>Zero-Latency Evaluation:</b> Signal correlation and FFT runs within 265ms, comfortably below telecom's 350ms threshold.
+            </div>
+        </div>
+
+        <!-- SLIDE 4: THE "TWO HUMANS" DEEP DIVE -->
+        <div class="slide-container w-full max-w-5xl h-full flex flex-col justify-center hidden" data-slide="4">
+            <div class="text-xs font-mono text-purple-400 uppercase tracking-widest mb-2">Acoustic Forensics</div>
+            <h2 class="text-3xl sm:text-5xl font-black text-white mb-5">Separating Two Humans Speaking Alike</h2>
+            
+            <div class="p-5 bg-slate-950 border border-slate-800 rounded-2xl mb-5 font-mono text-xs">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-3.5 bg-emerald-950/20 border border-emerald-800/40 rounded-xl">
+                        <div class="text-emerald-400 font-bold mb-1">Enrolled Profile: Karthik</div>
+                        <div class="text-slate-300">Pitch (F0): 170.0 Hz</div>
+                        <div class="text-slate-300">Spectral Centroid: 1224.8 Hz</div>
+                        <div class="text-emerald-300 font-bold mt-2">✓ Physical Anatomy Baseline</div>
+                    </div>
+                    <div class="p-3.5 bg-amber-950/20 border border-amber-800/40 rounded-xl">
+                        <div class="text-amber-400 font-bold mb-1">Human Impostor: Ramesh</div>
+                        <div class="text-slate-300">Pitch (F0): 138.5 Hz</div>
+                        <div class="text-slate-300">Spectral Centroid: 1680.0 Hz</div>
+                        <div class="text-red-400 font-bold mt-2">🚨 Severe Formant Shift Mismatch</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 bg-slate-900/90 border border-slate-800 rounded-xl text-xs text-slate-300 leading-relaxed font-sans">
+                <b>Result:</b> The bot explicitly blocks the caller: <i>"క్షమించండి అండి! మీరు karthik గారితో మ్యాచ్ అవ్వలేదు. మీ వాయిస్ రిజిస్టర్డ్ వాయిస్‌ప్రింట్ తో మ్యాచ్ అవ్వలేదు (కేవలం 24.5%)."</i> and immediately dispatches an SMS fraud alert to Karthik's mobile.
+            </div>
+        </div>
+
+        <!-- SLIDE 5: VOICE-OTP 2FA DEFENSE -->
+        <div class="slide-container w-full max-w-5xl h-full flex flex-col justify-center hidden" data-slide="5">
+            <div class="text-xs font-mono text-indigo-400 uppercase tracking-widest mb-2">Two-Factor Authentication</div>
+            <h2 class="text-3xl sm:text-5xl font-black text-white mb-5">Out-of-Band Voice-OTP Telecom Challenge</h2>
+            
+            <div class="grid grid-cols-3 gap-4 mb-6 text-xs font-mono">
+                <div class="p-4 bg-slate-950 border border-indigo-900/40 rounded-xl">
+                    <div class="text-indigo-400 font-bold mb-1">1. Ambiguous Calls</div>
+                    <p class="text-slate-400">When throat infection or traffic noise causes borderline 68-74% score, system triggers Voice-OTP.</p>
+                </div>
+                <div class="p-4 bg-slate-950 border border-indigo-900/40 rounded-xl">
+                    <div class="text-cyan-400 font-bold mb-1">2. Spoken in Mother Tongue</div>
+                    <p class="text-slate-400">Automated phone call speaks 6 dynamic digits in Telugu & English aloud to the registered SIM.</p>
+                </div>
+                <div class="p-4 bg-slate-950 border border-indigo-900/40 rounded-xl">
+                    <div class="text-emerald-400 font-bold mb-1">3. Financial Inclusion</div>
+                    <p class="text-slate-400">Enables illiterate rural farmers and senior citizens with basic keypad phones to authenticate securely.</p>
+                </div>
+            </div>
+
+            <div class="p-4 bg-slate-950 border border-cyan-500/30 rounded-xl text-xs font-mono text-cyan-300">
+                📱 <b>Telecom Defense:</b> Even if a scammer spoofs the caller ID, Voice-OTP rings the physical SIM registered at the bank.
+            </div>
+        </div>
+
+        <!-- SLIDE 6: MULTI-BANK ENTERPRISE & APGB BHARAT -->
+        <div class="slide-container w-full max-w-5xl h-full flex flex-col justify-center hidden" data-slide="6">
+            <div class="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-2">National Scale</div>
+            <h2 class="text-3xl sm:text-5xl font-black text-white mb-5">Inclusive Banking from Metros to Bharat</h2>
+            
+            <div class="grid grid-cols-2 gap-4 mb-6 text-xs font-mono">
+                <div class="p-4 bg-slate-950 border border-blue-900/40 rounded-xl">
+                    <div class="text-blue-400 font-bold text-sm">🏦 HDFC Bank</div>
+                    <div class="text-slate-400 mt-1">Urban Standard Telugu & Indian English Concierge. High-net-worth portfolio defense.</div>
+                </div>
+                <div class="p-4 bg-slate-950 border border-indigo-900/40 rounded-xl">
+                    <div class="text-indigo-400 font-bold text-sm">🏛️ State Bank of India (YONO)</div>
+                    <div class="text-slate-400 mt-1">Semi-urban retail banking, pension voice biometric verification, and grievance assist.</div>
+                </div>
+                <div class="p-4 bg-slate-950 border border-amber-900/40 rounded-xl">
+                    <div class="text-amber-400 font-bold text-sm">🏢 ICICI Bank</div>
+                    <div class="text-slate-400 mt-1">iMobile corporate telephony, high-value wire transfers, and anti-fraud monitoring.</div>
+                </div>
+                <div class="p-4 bg-slate-950 border border-emerald-900/40 rounded-xl">
+                    <div class="text-emerald-400 font-bold text-sm">🌾 APGB Grameena Bank</div>
+                    <div class="text-slate-400 mt-1">Rural Rayalaseema Telugu Kisan Assist. Protecting farmers' crop loans from local scams.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: 4-STAGE ARCHITECTURE -->
+        <div class="slide-container w-full max-w-5xl h-full flex flex-col justify-center hidden" data-slide="7">
+            <div class="text-xs font-mono text-cyan-400 uppercase tracking-widest mb-2">User Experience</div>
+            <h2 class="text-3xl sm:text-5xl font-black text-white mb-5">4-Stage Progressive Workflow</h2>
+            
+            <div class="grid grid-cols-4 gap-3 text-xs font-mono mb-6">
+                <div class="p-4 bg-slate-950 border border-slate-800 rounded-xl">
+                    <span class="text-cyan-400 font-bold">Stage 0</span>
+                    <h4 class="text-white font-bold mt-1 mb-2">Welcome Center</h4>
+                    <p class="text-slate-400 text-[11px]">Architecture briefing on Prisma ASR & armour365 biometrics.</p>
+                </div>
+                <div class="p-4 bg-slate-950 border border-slate-800 rounded-xl">
+                    <span class="text-purple-400 font-bold">Stage 1</span>
+                    <h4 class="text-white font-bold mt-1 mb-2">Setup & Voice</h4>
+                    <p class="text-slate-400 text-[11px]">Select customer, live mic recording, auto-categorizes caller persona.</p>
+                </div>
+                <div class="p-4 bg-slate-950 border border-slate-800 rounded-xl">
+                    <span class="text-indigo-400 font-bold">Stage 2</span>
+                    <h4 class="text-white font-bold mt-1 mb-2">Telephony SOC</h4>
+                    <p class="text-slate-400 text-[11px]">8kHz G.711 HUD, candidate radar, live dialogue, instant SMS fraud alert.</p>
+                </div>
+                <div class="p-4 bg-slate-950 border border-slate-800 rounded-xl">
+                    <span class="text-emerald-400 font-bold">Stage 3</span>
+                    <h4 class="text-white font-bold mt-1 mb-2">Audit Scorecard</h4>
+                    <p class="text-slate-400 text-[11px]">FFT spectrogram, RBI matrix, printable ISO/IEC 30107-3 certificate.</p>
+                </div>
+            </div>
+
+            <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-slate-300">
+                ✨ <b>Seamless State Flow:</b> Each stage smoothly transitions with immediate reactive updates.
+            </div>
+        </div>
+
+        <!-- SLIDE 8: 3D HOLOGRAPHIC BIOMETRIC RADAR -->
+        <div class="slide-container w-full max-w-5xl h-full flex flex-col justify-center hidden" data-slide="8">
+            <div class="text-xs font-mono text-purple-400 uppercase tracking-widest mb-2">Futuristic Visual SOC</div>
+            <h2 class="text-3xl sm:text-5xl font-black text-white mb-5">3D Voice Biometric Hologram (Three.js)</h2>
+            
+            <div class="grid grid-cols-3 gap-4 mb-6 text-xs font-mono">
+                <div class="p-4 bg-emerald-950/20 border border-emerald-800/40 rounded-xl">
+                    <div class="text-emerald-400 font-bold mb-1">🟢 Genuine User</div>
+                    <p class="text-slate-300">Emerald/Cyan glow, harmonic breathing pulse, steady revolving radar scan rings.</p>
+                </div>
+                <div class="p-4 bg-amber-950/20 border border-amber-800/40 rounded-xl">
+                    <div class="text-amber-400 font-bold mb-1">🟡 Human Impostor</div>
+                    <p class="text-slate-300">Amber/Gold glow, pitch discrepancy tilt, eccentric orbit indicating formant shift.</p>
+                </div>
+                <div class="p-4 bg-red-950/20 border border-red-800/40 rounded-xl">
+                    <div class="text-red-400 font-bold mb-1">🔴 AI Voice Clone</div>
+                    <p class="text-slate-300">Crimson/Red glow, rapid jitter, spike pulsations, and urgent audio interception.</p>
+                </div>
+            </div>
+
+            <div class="p-4 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-slate-400">
+                🎯 <b>Positioning:</b> Anchored on the right side (`x = 3.2`) with floating telemetry HUD, keeping dialog panels 100% readable.
+            </div>
+        </div>
+
+        <!-- SLIDE 9: RBI REGULATORY COMPLIANCE -->
+        <div class="slide-container w-full max-w-5xl h-full flex flex-col justify-center hidden" data-slide="9">
+            <div class="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-2">Enterprise Ready</div>
+            <h2 class="text-3xl sm:text-5xl font-black text-white mb-5">RBI Digital Banking Security Matrix</h2>
+            
+            <div class="grid grid-cols-2 gap-4 mb-6 text-xs font-mono">
+                <div class="p-4 bg-slate-950 border border-slate-800 rounded-xl">
+                    <div class="text-emerald-400 font-bold">1. Data Privacy & DPDP Act 2023</div>
+                    <p class="text-slate-400 mt-1">Voiceprints stored as irreversibly hashed mathematical vectors ($F_0, F_1, F_2$), not raw audio.</p>
+                </div>
+                <div class="p-4 bg-slate-950 border border-slate-800 rounded-xl">
+                    <div class="text-emerald-400 font-bold">2. Cyber Crime Helpline 1930 Integration</div>
+                    <p class="text-slate-400 mt-1">One-click telemetry incident payload ready to push to National Cyber Crime Reporting Portal.</p>
+                </div>
+                <div class="p-4 bg-slate-950 border border-slate-800 rounded-xl">
+                    <div class="text-emerald-400 font-bold">3. &lt;350ms Telecom SLA</div>
+                    <p class="text-slate-400 mt-1">Near real-time evaluation at 265ms average latency preserves conversational turn-taking.</p>
+                </div>
+                <div class="p-4 bg-slate-950 border border-slate-800 rounded-xl">
+                    <div class="text-emerald-400 font-bold">4. ISO/IEC 30107-3 Certificate</div>
+                    <p class="text-slate-400 mt-1">Official presentation attack defense audit trail generated for banking compliance officers.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: CONCLUSION & INTERNSHIP FIT -->
+        <div class="slide-container w-full max-w-5xl h-full flex flex-col justify-center hidden" data-slide="10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs font-mono mb-4 w-fit">
+                <span>GNANI.AI INTERNSHIP VALUE PROPOSITION</span>
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-black text-white mb-4">Why Inya-CloneShield Matters to Gnani.ai</h2>
+            <p class="text-sm text-slate-300 max-w-3xl mb-6 leading-relaxed">
+                We have demonstrated end-to-end full-stack mastery: from native 16-bit PCM WAV digital signal processing and speech biometrics, to multi-tenant telephony architectures and 3D visual SOC interfaces.
+            </p>
+            <div class="grid grid-cols-3 gap-4 mb-8 text-xs font-mono">
+                <div class="p-4 bg-slate-950 border border-cyan-500/40 rounded-xl">
+                    <div class="text-cyan-400 font-bold mb-1">Acoustic Signal Processing</div>
+                    <p class="text-slate-400">Pure NumPy autocorrelation & FFT formants extraction.</p>
+                </div>
+                <div class="p-4 bg-slate-950 border border-purple-500/40 rounded-xl">
+                    <div class="text-purple-400 font-bold mb-1">Indic Stack Passion</div>
+                    <p class="text-slate-400">Deep commitment to speech tech for Bharat's regional languages.</p>
+                </div>
+                <div class="p-4 bg-slate-950 border border-emerald-500/40 rounded-xl">
+                    <div class="text-emerald-400 font-bold mb-1">Production Ready</div>
+                    <p class="text-slate-400">Zero bloat, single-command run, compliant with RBI guidelines.</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="/" target="_blank" class="py-3 px-6 rounded-xl bg-gradient-to-r from-cyan-600 via-indigo-600 to-purple-600 hover:from-cyan-500 text-white font-extrabold text-xs tracking-wider shadow-xl transition flex items-center gap-2">
+                    <span>🚀 START LIVE PRODUCT DEMO</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+                <span class="text-xs text-slate-400 font-mono">Ready for Q&A with Gnani.ai Leadership</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- SPEAKER NOTES DRAWER (BILINGUAL TELUGU & ENGLISH) -->
+    <div id="speaker-notes-drawer" class="hidden border-t border-cyan-500/30 bg-slate-950/95 p-4 rounded-2xl mb-2 backdrop-blur-xl transition-all shadow-2xl max-w-5xl mx-auto w-full">
+        <div class="flex items-center justify-between text-xs font-mono text-cyan-400 mb-2">
+            <span class="flex items-center gap-2">
+                <i data-lucide="mic" class="w-4 h-4 text-cyan-400"></i>
+                <b>SPEAKER SCRIPT FOR SLIDE <span id="notes-slide-indicator">1</span>:</b>
+            </span>
+            <span class="text-slate-400 text-[10px]">Toggle with 'S' key</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+            <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-cyan-300 font-bold uppercase mb-1">English Presentation Pitch:</div>
+                <p id="notes-text-en" class="text-slate-300 leading-relaxed italic">
+                    "Good morning respected judges. Inya-CloneShield protects Indian banking telephony from voice deepfakes and impostors."
+                </p>
+            </div>
+            <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-800">
+                <div class="text-[10px] text-purple-300 font-bold uppercase mb-1">తెలుగు ప్రెజెంటేషన్ వివరణ (Telugu Pitch):</div>
+                <p id="notes-text-te" class="text-slate-300 leading-relaxed italic">
+                    "నమస్కారం! నేడు కేవలం 3 సెకన్ల ఆడియోతో AI వాయిస్ క్లోనింగ్ సాధ్యమవుతున్న తరుణంలో, మన బ్యాంకింగ్ రంగాన్ని డీప్‌ఫేక్స్ నుండి కాపాడటానికి మేము రూపొందించిన ప్లాట్‌ఫారమ్ 'Inya-CloneShield'."
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM CONTROLS & THUMBNAILS -->
+    <footer class="flex items-center justify-between border-t border-slate-800 pt-3 text-xs font-mono">
+        <div class="flex items-center gap-2">
+            <button onclick="prevSlide()" class="py-2 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 flex items-center gap-1.5 transition">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i> Previous
+            </button>
+            <button onclick="nextSlide()" class="py-2 px-4 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold flex items-center gap-1.5 shadow-lg shadow-cyan-900/40 transition">
+                Next <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </button>
+        </div>
+
+        <!-- Slide Progress Dots -->
+        <div class="flex items-center gap-1.5">
+            <button onclick="goToSlide(1)" class="w-3 h-3 rounded-full bg-cyan-400 transition" id="dot-1"></button>
+            <button onclick="goToSlide(2)" class="w-3 h-3 rounded-full bg-slate-800 transition" id="dot-2"></button>
+            <button onclick="goToSlide(3)" class="w-3 h-3 rounded-full bg-slate-800 transition" id="dot-3"></button>
+            <button onclick="goToSlide(4)" class="w-3 h-3 rounded-full bg-slate-800 transition" id="dot-4"></button>
+            <button onclick="goToSlide(5)" class="w-3 h-3 rounded-full bg-slate-800 transition" id="dot-5"></button>
+            <button onclick="goToSlide(6)" class="w-3 h-3 rounded-full bg-slate-800 transition" id="dot-6"></button>
+            <button onclick="goToSlide(7)" class="w-3 h-3 rounded-full bg-slate-800 transition" id="dot-7"></button>
+            <button onclick="goToSlide(8)" class="w-3 h-3 rounded-full bg-slate-800 transition" id="dot-8"></button>
+            <button onclick="goToSlide(9)" class="w-3 h-3 rounded-full bg-slate-800 transition" id="dot-9"></button>
+            <button onclick="goToSlide(10)" class="w-3 h-3 rounded-full bg-slate-800 transition" id="dot-10"></button>
+        </div>
+
+        <div class="text-slate-400 text-[11px]">
+            Use <kbd class="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-white">←</kbd> <kbd class="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-700 text-white">→</kbd> to navigate
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT SLIDE ENGINE -->
+    <script>
+        lucide.createIcons();
+
+        let currentSlide = 1;
+        const totalSlides = 10;
+        let showNotes = false;
+
+        const speakerNotesData = {
+            1: {
+                en: "Good morning respected judges. In an era where 3 seconds of recorded audio can clone anyone's voice, Indian banks are losing millions to voice spoofing. Inya-CloneShield is our autonomous red-teaming and biometric defense platform that verifies physical throat formants in real time.",
+                te: "నమస్కారం! నేడు కేవలం 3 సెకన్ల ఆడియోతో AI వాయిస్ క్లోనింగ్ సాధ్యమవుతున్న తరుణంలో, మన బ్యాంకింగ్ రంగాన్ని డీప్‌ఫేక్స్ మరియు సైబర్ నేరగాళ్ల నుండి కాపాడటానికి మేము రూపొందించిన డిఫెన్స్ ప్లాట్‌ఫారమ్ 'Inya-CloneShield'."
+            },
+            2: {
+                en: "Traditional KYC fails because phone numbers, PAN cards, and account numbers are easily leaked. When an impostor calls knowing the victim's account number, existing bots grant access. We solve the 'Two Humans' challenge: verifying WHO is speaking, not just WHAT was spoken.",
+                te: "సాంప్రదాయ KYC విఫలమవుతోంది ఎందుకంటే అకౌంట్ నంబర్, పుట్టిన తేదీలు సులభంగా దొంగిలించబడుతున్నాయి. మాటల్లోని విషయాన్ని మాత్రమే కాకుండా, మాట్లాడేది అసలైన వ్యక్తా కాదా అని గుర్తించడమే ఈ 'Two Humans' ఛాలెంజ్."
+            },
+            3: {
+                en: "Our architecture evaluates two distinct layers: Layer 1 checks biological vocal tract liveness, dropping AI vocoders to 12%. Layer 2 measures fundamental pitch and formants against the enrolled voiceprint within 265 milliseconds.",
+                te: "మా సిస్టమ్ రెండు అంచెల రక్షణ కల్పిస్తుంది: మొదటిది శారీరక లయ (Liveness), రెండవది గొంతు పిచ్ (F0) మరియు స్పెక్ట్రల్ ఫార్మాంట్స్. కేవలం 265 మిల్లీసెకన్లలో ఇది పూర్తవుతుంది."
+            },
+            4: {
+                en: "Look at the acoustic numbers: Karthik's pitch is 170Hz. When an impostor named Ramesh calls with Karthik's account number, his pitch is 138.5Hz. The system calculates a 24.5% match, blocks the fraudster, and alerts Karthik immediately.",
+                te: "కార్తీక్ పిచ్ 170Hz కాగా, రమేష్ పిచ్ 138.5Hz. అకౌంట్ నంబర్ సరైనదే అయినప్పటికీ గొంతు మ్యాచ్ 24.5% మాత్రమే వచ్చి కాల్ వెంటనే బ్లాక్ అవుతుంది."
+            },
+            5: {
+                en: "Voice-OTP is our 2FA telephony safety net. When a call is borderline due to traffic noise or a cold, an automated voice call rings the customer's physical phone, speaking the 6-digit OTP aloud in Telugu or English. This enables seamless financial inclusion.",
+                te: "గొంతు బాలేకపోయినా లేదా ట్రాఫిక్ నాయిస్ ఉన్నప్పుడు Voice-OTP ద్వారా కస్టమర్ మొబైల్‌కు ఫోన్ చేసి తెలుగులో ఓటీపీ చెబుతుంది. ఇది గ్రామీణ ప్రజలకు, వృద్ధులకు రక్షణ కల్పిస్తుంది."
+            },
+            6: {
+                en: "We built this for all of India—from urban HDFC wealth banking to Andhra Pragathi Grameena Bank (APGB) for rural farmers in Rayalaseema Telugu. Inclusivity is at the heart of our design.",
+                te: "ఇది కేవలం మెట్రో నగరాలకే కాక, APGB గ్రామీణ బ్యాంక్ ద్వారా రాయలసీమ తెలుగులో రైతులకు కూడా సురక్షితమైన వాయిస్ బ్యాంకింగ్ అందిస్తుంది."
+            },
+            7: {
+                en: "The UX is structured into a 4-Stage Progressive Workflow: Stage 0 Welcome, Stage 1 Setup & Live Mic Capture, Stage 2 Telephony SOC Arena, and Stage 3 Printable RBI Biometric Certificate.",
+                te: "ప్లాట్‌ఫారమ్ 4 దశల్లో నడుస్తుంది: వెల్‌కమ్, సెటప్ & వాయిస్ ఇన్‌పుట్, టెలిఫోనీ SOC కాలింగ్ ఏరినా, మరియు చివరగా RBI సర్టిఫికేట్ రిపోర్ట్."
+            },
+            8: {
+                en: "Notice our 3D Biometric Hologram on the right side. It dynamically visualizes real-time acoustic harmonics: green for verified users, amber for impostors, and red for AI deepfake clones.",
+                te: "కుడి వైపు ఉన్న 3D హోలోగ్రామ్ రియల్ టైమ్‌లో రంగు మారుతుంది: నిజమైన యూజర్ అయితే గ్రీన్, ఇంపొస్టర్ అయితే ఆంబర్, AI క్లోన్ అయితే రెడ్ రంగులోకి మారుతుంది."
+            },
+            9: {
+                en: "Inya-CloneShield strictly complies with RBI Master Direction 2024, ISO/IEC 30107-3, and DPDP Act 2023. We store irreversible acoustic vectors, never raw audio recordings, preserving privacy.",
+                te: "ఈ వ్యవస్థ RBI మరియు DPDP నిబంధనలకు కట్టుబడి ఉంటుంది. యూజర్ల వాయిస్ రికార్డింగ్స్ కాకుండా కేవలం మ్యాథమెటికల్ వెక్టర్స్ మాత్రమే భద్రపరుస్తాము."
+            },
+            10: {
+                en: "In conclusion, Inya-CloneShield proves our readiness to join Gnani.ai's engineering team. We are passionate about Indic speech AI, acoustic signal forensics, and building trusted voice interfaces for Bharat.",
+                te: "ముగింపుగా, Gnani.ai లో armour365 ఇంజనీరింగ్ టీమ్‌తో కలిసి పనిచేయడానికి మేము సిద్ధంగా ఉన్నాము. ఇప్పుడు మా లైవ్ ప్రొడక్ట్ డెమోను చూద్దాం!"
+            }
+        };
+
+        function showSlide(num) {
+            currentSlide = Math.max(1, Math.min(totalSlides, num));
+            document.querySelectorAll('.slide-container').forEach(el => el.classList.add('hidden'));
+            const activeEl = document.querySelector(`[data-slide="${currentSlide}"]`);
+            if (activeEl) activeEl.classList.remove('hidden');
+
+            document.getElementById('current-slide-num').textContent = currentSlide;
+
+            for (let i = 1; i <= totalSlides; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                if (dot) {
+                    dot.className = (i === currentSlide) ? 
+                        "w-3 h-3 rounded-full bg-cyan-400 transition scale-110 shadow-lg shadow-cyan-500/50" : 
+                        "w-3 h-3 rounded-full bg-slate-800 transition";
+                }
+            }
+
+            // Update speaker notes
+            document.getElementById('notes-slide-indicator').textContent = currentSlide;
+            const note = speakerNotesData[currentSlide] || speakerNotesData[1];
+            document.getElementById('notes-text-en').textContent = `"${note.en}"`;
+            document.getElementById('notes-text-te').textContent = `"${note.te}"`;
+        }
+
+        window.prevSlide = () => showSlide(currentSlide - 1);
+        window.nextSlide = () => showSlide(currentSlide + 1);
+        window.goToSlide = (num) => showSlide(num);
+
+        window.toggleSpeakerNotes = () => {
+            showNotes = !showNotes;
+            const drawer = document.getElementById('speaker-notes-drawer');
+            const btnText = document.getElementById('notes-btn-text');
+            if (showNotes) {
+                drawer.classList.remove('hidden');
+                btnText.textContent = "Hide Speaker Notes (S)";
+            } else {
+                drawer.classList.add('hidden');
+                btnText.textContent = "Show Speaker Notes (S)";
+            }
+        };
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key.toLowerCase() === 's') {
+                toggleSpeakerNotes();
+            }
+        });
+
+        // Initialize Slide 1
+        showSlide(1);
+    </script>
+</body>
+</html>
