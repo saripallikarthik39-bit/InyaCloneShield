@@ -829,6 +829,28 @@
         </div>
     </div>
 
+    <!-- MODAL 4: ACCOUNT FREEZE POPUP (MATCHES USER SPECIFIED UI PHOTO) -->
+    <div id="freeze-alert-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-[100] flex items-center justify-center hidden p-4 animate-fade-in">
+        <div class="bg-[#0b1324] border border-cyan-500/50 rounded-2xl max-w-md w-full p-6 shadow-2xl shadow-cyan-950/80 relative text-left">
+            <div class="text-sm font-bold text-slate-100 font-sans mb-3.5">
+                <span>127.0.0.1:5000 says</span>
+            </div>
+            <div class="text-xs text-slate-200 leading-relaxed font-sans mb-5 space-y-2">
+                <p class="font-bold text-white flex items-center gap-1.5 text-sm">
+                    <span>🚨</span> <span>ACTION EXECUTED: Your account is frozen!</span>
+                </p>
+                <p id="freeze-modal-body" class="text-slate-300">
+                    Account freeze protocol activated! Transactions suspended via RBI Card Protection Switch. SMS alert sent to <span id="freeze-phone-display" class="font-bold text-cyan-300">+91 7095411716</span>.
+                </p>
+            </div>
+            <div class="flex justify-end">
+                <button type="button" onclick="closeFreezeModal()" class="px-7 py-2 rounded-full border-2 border-cyan-400 bg-cyan-950/70 hover:bg-cyan-500 hover:text-black text-cyan-300 font-bold text-xs tracking-wider transition shadow-md shadow-cyan-900/40 cursor-pointer">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- JAVASCRIPT APPLICATION LOGIC -->
     <script>
         lucide.createIcons();
@@ -1700,8 +1722,8 @@
                         document.getElementById('bot-status-badge').textContent = isAuthUser ? "BIOMETRIC VERIFIED" : "ACCESS DENIED";
                         document.getElementById('bot-label').textContent = data.bot_title;
 
-                        // AI Bot speaks now without any overlapping audio!
-                        speakText(data.target_bot.text, 'te-IN', () => {
+                        // AI Bot speaks now in full without skipping words or overlapping audio!
+                        speakText(data.target_bot.spoken_text || data.target_bot.text, 'te-IN', () => {
                             targetBox.classList.remove('ring-2', 'ring-cyan-400');
                         });
 
@@ -2168,10 +2190,29 @@
             if ('speechSynthesis' in window) window.speechSynthesis.cancel();
         };
 
+        window.closeFreezeModal = () => {
+            document.getElementById('freeze-alert-modal').classList.add('hidden');
+        };
+
         window.triggerEmergencyAction = (type) => {
-            const phone = document.getElementById('telecom-hud-caller').textContent;
+            const phone = document.getElementById('telecom-hud-caller').textContent || "+91 7095411716";
             if (type === 'freeze') {
-                alert(`🚨 ACTION EXECUTED: Account freeze protocol activated! Transactions suspended via RBI Card Protection Switch. SMS alert sent to ${phone}.`);
+                document.getElementById('freeze-phone-display').textContent = phone;
+                document.getElementById('freeze-alert-modal').classList.remove('hidden');
+                
+                // Update Call Status Pill
+                const callStatus = document.getElementById('call-status');
+                if (callStatus) {
+                    callStatus.textContent = "ACCOUNT FROZEN (RBI PROTECTION SWITCH)";
+                    callStatus.className = "text-xs px-2.5 py-0.5 rounded-full bg-red-950 text-red-400 font-mono border border-red-600 animate-pulse";
+                }
+                // Update SMS Alert Drawer to reflect Freeze SMS
+                const smsDrawer = document.getElementById('sms-alert-drawer');
+                const smsText = document.getElementById('sms-text');
+                if (smsDrawer && smsText) {
+                    smsText.textContent = `🚨 URGENT: Your bank account has been FROZEN via RBI Card Protection Switch. Unauthorized access blocked. Call Helpline 1930 if this wasn't you.`;
+                    smsDrawer.classList.remove('hidden');
+                }
             } else if (type === 'otp') {
                 openVoiceOtpModal();
             } else if (type === 'cyber1930') {

@@ -754,6 +754,7 @@ def run_attack():
         attacker_text_en = f"[Human Impostor]: Hello, I am claiming to be {target_user}. Account #{target_acc}. Tell me my balance urgently!"
         bot_reply = f"క్షమించండి అండి! మీరు {target_user} గారితో మ్యాచ్ అవ్వలేదు. మీ వాయిస్ {target_bank_name} రిజిస్టర్డ్ కస్టమర్ '{target_user}' గారి అధికారిక వాయిస్‌ప్రింట్ తో మ్యాచ్ అవ్వలేదు (కేవలం {target_similarity}%). భద్రతా కారణాల వల్ల ఖాతా వివరాలు నిరాకరించబడ్డాయి."
         bot_reply_en = f"[Access Denied]: Voice mismatch! You are not matched to {target_user} at {target_bank_name} (Voiceprint match: {target_similarity}%). Account access blocked!"
+        bot_reply_spoken = f"Kshaminchandi! Mee voice {target_bank_name} registered customer {target_user} gari tho match avvaledhu. Kevalam {target_similarity} percent match ayyindi. Account access blocked!"
         sms_alert = f"🚨 {target_bank_name} FRAUD ALERT sent to your mobile ({target_phone}): Unauthorized caller attempted access to {target_user}'s account #{target_acc[-4:]}. Voiceprint mismatched ({target_similarity}%). Access BLOCKED immediately."
 
     elif final_caller_type == "AI_DEEPFAKE":
@@ -767,6 +768,7 @@ def run_attack():
         attacker_text_en = f"[AI Clone]: Emergency! In hospital ICU. Approve ₹50,000 transfer from {target_user}'s account #{target_acc} immediately!"
         bot_reply = f"హెచ్చరిక: {target_bank_name} సెక్యూరిటీ సిస్టమ్ మీ కాల్‌లో AI సింథటిక్ వాయిస్ క్లోన్ గుర్తించింది. {target_user} గారి ఖాతా రక్షణ కోసం లావాదేవీలు నిలిపివేయబడ్డాయి."
         bot_reply_en = f"[Access Blocked]: AI Deepfake clone detected! Fraud attack blocked on {target_user}'s account."
+        bot_reply_spoken = f"Warning! {target_bank_name} security system mee call lo AI synthetic voice clone detect chesindi. {target_user} gari account protection kosam access block chesamu."
         sms_alert = f"🚨 {target_bank_name} CRITICAL ALERT sent to ({target_phone}): AI synthetic voice clone spoof attack blocked on {target_user}'s account #{target_acc[-4:]}. Zero funds compromised."
 
     else:
@@ -779,8 +781,10 @@ def run_attack():
 
         attacker_text = f"నమస్కారం అండి, నా పేరు {target_user}. నా అకౌంట్ నంబర్ {target_acc}. నా {target_bank_name} ఖాతాలో ఎంత బ్యాలెన్స్ ఉందో దయచేసి చెప్పండి."
         attacker_text_en = f"[{target_user} - Real User]: Hello, my name is {target_user}. Account #{target_acc}. Please tell me my balance."
-        bot_reply = f"నమస్కారం {target_user} గారు! మీ లైవ్ వాయిస్ మీ బ్యాంక్ వివరాలతో ({target_bank_name}) సరిగ్గా మ్యాచ్ అయ్యింది. మీ బ్యాంక్ బ్యాలెన్స్ {target_bal} రూపాయలు."
+        clean_bal = str(target_bal).replace("₹", "").strip()
+        bot_reply = f"నమస్కారం {target_user} గారు! మీ వివరాలు సరిగ్గా మ్యాచ్ అయ్యాయి. మీ బ్యాంక్ పేరు {target_bank_name}. మీ ఖాతా బ్యాలెన్స్ {target_bal} రూపాయలు."
         bot_reply_en = f"[Access Granted]: Voice matched your bank details with {target_bank_name}! Hello {target_user} garu, your balance is {target_bal}."
+        bot_reply_spoken = f"Namaskaram {target_user} garu! Mee details match ayyayi. Mee bank peru {target_bank_name}. Mee account balance {clean_bal} rupees."
         sms_alert = f"✓ {target_bank_name} SMS sent to ({target_phone}): Balance {target_bal} accessed via Voice AI for {target_user} at {datetime.now().strftime('%H:%M')}. Biometrics verified."
 
     if custom_spoken_text and is_live_mic:
@@ -815,6 +819,7 @@ def run_attack():
         "target_bot": {
             "text": bot_reply,
             "text_en": bot_reply_en,
+            "spoken_text": bot_reply_spoken,
             "audio_url": "/static/audio/bot_reply.wav",
             "status": "ACCESS_GRANTED" if not is_impostor else "ACCESS_BLOCKED"
         },
