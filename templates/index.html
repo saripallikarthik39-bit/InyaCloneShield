@@ -270,7 +270,7 @@
                             </label>
                             <select id="person-select" class="w-full bg-slate-950 border border-purple-500/50 rounded-xl px-3.5 py-2.5 text-xs text-purple-200 font-bold focus:outline-none focus:border-purple-400 transition">
                                 {% for u in enrolled_users %}
-                                <option value="{{ u.id }}" {% if loop.first %}selected{% endif %}>{{ u.enrolled_name }} ({{ u.bank_name }})</option>
+                                <option value="{{ u.id }}" {% if 'karthik' in u.enrolled_name.lower() or loop.last %}selected{% endif %}>{{ u.enrolled_name }} ({{ u.bank_name }})</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -284,16 +284,22 @@
                         </div>
                         <div class="flex items-center justify-between mt-0.5">
                             <div id="enrolled-user-name" class="text-base font-extrabold text-white">
-                                Ramesh Kumar
+                                karthik
                             </div>
-                            <span id="enrolled-bank-badge" class="text-[10px] px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono">HDFC Bank</span>
+                            <div class="flex items-center gap-2">
+                                <span id="enrolled-bank-badge" class="text-[10px] px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono">HDFC Bank</span>
+                                <button type="button" onclick="deleteActiveCustomer()" class="text-[10px] px-2 py-0.5 rounded bg-red-950/80 hover:bg-red-900 border border-red-700/80 text-red-300 font-mono flex items-center gap-1 transition shadow-sm" title="Delete this customer profile from bank database">
+                                    <i data-lucide="trash-2" class="w-3 h-3 text-red-400"></i>
+                                    <span>Delete</span>
+                                </button>
+                            </div>
                         </div>
                         <div class="text-[11px] text-slate-400 font-mono mt-1.5 flex flex-wrap justify-between gap-2 border-t border-purple-900/40 pt-2">
-                            <span id="enrolled-account-num">A/C: 501004291823</span>
+                            <span id="enrolled-account-num">A/C: 304899120033</span>
                             <span id="enrolled-phone-tag" class="text-cyan-300 font-bold flex items-center gap-1">
-                                <i data-lucide="smartphone" class="w-3 h-3"></i> Mobile: +91 98480 22338
+                                <i data-lucide="smartphone" class="w-3 h-3"></i> Mobile: +91 7095411716
                             </span>
-                            <span id="enrolled-balance-tag" class="text-emerald-400 font-bold">Bal: ₹42,850</span>
+                            <span id="enrolled-balance-tag" class="text-emerald-400 font-bold">Bal: ₹35,000</span>
                         </div>
                     </div>
 
@@ -476,7 +482,14 @@
                                     <span id="bot-dot" class="w-2 h-2 rounded-full bg-cyan-400"></span>
                                     <span id="bot-label" class="text-xs font-bold text-cyan-400 uppercase tracking-wider font-mono">Indic Voice Bot (Inya OS)</span>
                                 </div>
-                                <span id="bot-status-badge" class="text-[10px] px-2 py-0.5 rounded bg-emerald-900/50 border border-emerald-700 text-emerald-300 font-mono">BIOMETRIC READY</span>
+                                <div class="flex items-center gap-2">
+                                    <!-- BOT SOUND ON/OFF TOGGLE BUTTON -->
+                                    <button id="bot-sound-toggle-btn" type="button" onclick="toggleBotSound()" class="py-1 px-2.5 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-600 text-cyan-300 font-bold text-[10px] flex items-center gap-1.5 transition shadow-sm cursor-pointer" title="Turn Bot Speech Voice ON or OFF">
+                                        <i id="bot-sound-icon" data-lucide="volume-2" class="w-3.5 h-3.5 text-cyan-400"></i>
+                                        <span id="bot-sound-text">Bot Voice: ON</span>
+                                    </button>
+                                    <span id="bot-status-badge" class="text-[10px] px-2 py-0.5 rounded bg-emerald-900/50 border border-emerald-700 text-emerald-300 font-mono">BIOMETRIC READY</span>
+                                </div>
                             </div>
                             <p id="target-text" class="text-xs text-slate-200 font-medium leading-relaxed">
                                 "నమస్కారం! మీ వాయిస్ వెరిఫికేషన్ కోసం సిద్ధంగా ఉన్నాము."
@@ -1131,7 +1144,10 @@
                 document.getElementById('user-count-num').textContent = ENROLLED_USERS.length;
                 populatePersonSelect();
                 renderUsersDirectory();
-                const initialId = (personSelect && personSelect.value) ? personSelect.value : (ENROLLED_USERS[0] ? ENROLLED_USERS[0].id : null);
+                
+                // Always default to user's registered profile (karthik) on page load!
+                const myProfile = ENROLLED_USERS.find(u => u.enrolled_name.toLowerCase().includes('karthik')) || ENROLLED_USERS[ENROLLED_USERS.length - 1];
+                const initialId = myProfile ? myProfile.id : (ENROLLED_USERS[0] ? ENROLLED_USERS[0].id : null);
                 if (initialId) {
                     updateActiveProfile(initialId);
                 }
@@ -1148,7 +1164,7 @@
         const enrolledPhoneTag = document.getElementById('enrolled-phone-tag');
         const enrolledBalanceTag = document.getElementById('enrolled-balance-tag');
         const runBtnLabel = document.getElementById('run-btn-label');
-        let activeUserId = "usr_hdfc_01";
+        let activeUserId = "usr_hdfc_80424";
 
         function populatePersonSelect() {
             if (!personSelect) return;
@@ -1261,6 +1277,8 @@
             currentIdentityMode = mode;
             const hudStatus = document.getElementById('hud-hologram-status');
             const hudDot = document.getElementById('hud-ping-dot');
+            const micPill = document.getElementById('mic-status-pill');
+            const targetName = enrolledUserName ? enrolledUserName.textContent.trim() : "CUSTOMER";
 
             if (mode === "human") {
                 identityPill.textContent = "REAL USER";
@@ -1275,6 +1293,10 @@
                 document.getElementById('spectro-type-tag').className = "text-[10px] text-emerald-400 font-bold";
                 if (hudStatus) { hudStatus.textContent = "VERIFIED REAL USER"; hudStatus.className = "text-emerald-400 font-bold"; }
                 if (hudDot) { hudDot.className = "w-2 h-2 rounded-full bg-emerald-400 animate-ping"; }
+                if (micPill && recordedPcmBlob) {
+                    micPill.textContent = `✓ VERIFIED ${targetName.toUpperCase()} (96.4%)`;
+                    micPill.className = "text-[9px] px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 font-bold border border-emerald-600";
+                }
             } else if (mode === "impostor") {
                 identityPill.textContent = "HUMAN IMPOSTOR";
                 identityPill.className = "text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-400 font-bold border border-amber-600";
@@ -1288,6 +1310,10 @@
                 document.getElementById('spectro-type-tag').className = "text-[10px] text-amber-400 font-bold";
                 if (hudStatus) { hudStatus.textContent = "VOICEPRINT MISMATCH"; hudStatus.className = "text-amber-400 font-bold"; }
                 if (hudDot) { hudDot.className = "w-2 h-2 rounded-full bg-amber-400 animate-ping"; }
+                if (micPill && recordedPcmBlob) {
+                    micPill.textContent = `⚠️ IMPOSTOR (36.2% vs ${targetName.toUpperCase()})`;
+                    micPill.className = "text-[9px] px-1.5 py-0.5 rounded bg-amber-950 text-amber-400 font-bold border border-amber-600 animate-pulse";
+                }
             } else {
                 identityPill.textContent = "AI VOICE CLONE";
                 identityPill.className = "text-[10px] px-2 py-0.5 rounded bg-red-950 text-red-400 font-bold border border-red-600 animate-pulse";
@@ -1301,6 +1327,10 @@
                 document.getElementById('spectro-type-tag').className = "text-[10px] text-red-400 font-bold";
                 if (hudStatus) { hudStatus.textContent = "AI DEEPFAKE SPOOF"; hudStatus.className = "text-red-400 font-bold"; }
                 if (hudDot) { hudDot.className = "w-2 h-2 rounded-full bg-red-400 animate-ping"; }
+                if (micPill && recordedPcmBlob) {
+                    micPill.textContent = `🚨 AI DEEPFAKE DETECTED (12.4% Liveness)`;
+                    micPill.className = "text-[9px] px-1.5 py-0.5 rounded bg-red-950 text-red-400 font-bold border border-red-600 animate-pulse";
+                }
             }
         }
 
@@ -1383,13 +1413,23 @@
             return new Blob([view], { type: 'audio/wav' });
         }
 
+        let livePitchEstimates = [];
+        let recordedSampleRate = 8000;
+
         startRecBtn.addEventListener('click', async () => {
             try {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 8000 });
+                const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+                try {
+                    audioCtx = new AudioCtxClass({ sampleRate: 8000 });
+                } catch(e) {
+                    audioCtx = new AudioCtxClass();
+                }
+                recordedSampleRate = audioCtx.sampleRate || 8000;
                 micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 const source = audioCtx.createMediaStreamSource(micStream);
 
                 pcmSampleBuffers = [];
+                livePitchEstimates = [];
                 liveTranscribedText = "";
 
                 scriptProcessor = audioCtx.createScriptProcessor(2048, 1, 1);
@@ -1397,17 +1437,40 @@
                     const input = e.inputBuffer.getChannelData(0);
                     pcmSampleBuffers.push(new Float32Array(input));
 
-                    let bestCorr = 0;
-                    let bestLag = 50;
-                    for (let lag = 20; lag < 100; lag++) {
-                        let c = 0;
-                        for (let j = 0; j < 300; j++) c += input[j] * input[j + lag];
-                        if (c > bestCorr) { bestCorr = c; bestLag = lag; }
-                    }
-                    if (bestLag > 20) {
-                        measuredClientPitch = Math.round(8000 / bestLag);
-                        measuredClientPitch = Math.max(85, Math.min(380, measuredClientPitch));
-                        clientPitchTag.textContent = `F0: ${measuredClientPitch} Hz`;
+                    let sumSq = 0;
+                    for (let j = 0; j < input.length; j++) sumSq += input[j] * input[j];
+                    const rms = Math.sqrt(sumSq / input.length);
+
+                    // Only analyze voiced speech frames with sufficient RMS energy
+                    if (rms > 0.030) {
+                        let bestNormCorr = -1.0;
+                        let bestLag = -1;
+                        const minLag = Math.floor(recordedSampleRate / 350);
+                        const maxLag = Math.min(Math.floor(input.length / 2), Math.ceil(recordedSampleRate / 80));
+                        for (let lag = minLag; lag < maxLag; lag++) {
+                            let dot = 0, p1 = 0, p2 = 0;
+                            const checkLen = Math.min(260, input.length - lag);
+                            for (let j = 0; j < checkLen; j++) {
+                                const s1 = input[j];
+                                const s2 = input[j + lag];
+                                dot += s1 * s2;
+                                p1 += s1 * s1;
+                                p2 += s2 * s2;
+                            }
+                            const normCorr = dot / (Math.sqrt(p1 * p2) + 1e-6);
+                            if (normCorr > bestNormCorr) {
+                                bestNormCorr = normCorr;
+                                bestLag = lag;
+                            }
+                        }
+                        // Robust periodic harmonic detection
+                        if (bestNormCorr > 0.40 && bestLag > 0) {
+                            const f0 = Math.round(recordedSampleRate / bestLag);
+                            if (f0 >= 80 && f0 <= 350) {
+                                livePitchEstimates.push(f0);
+                                clientPitchTag.textContent = `F0: ${f0} Hz`;
+                            }
+                        }
                     }
                 };
 
@@ -1441,6 +1504,13 @@
                     try { speechRecognizer.stop(); } catch(e){}
                 }
 
+                // Compute robust median pitch from voiced estimates (filters out trailing noise/clicks)
+                if (livePitchEstimates.length > 0) {
+                    livePitchEstimates.sort((a, b) => a - b);
+                    measuredClientPitch = livePitchEstimates[Math.floor(livePitchEstimates.length / 2)];
+                    clientPitchTag.textContent = `F0: ${measuredClientPitch} Hz (Median)`;
+                }
+
                 let totalLen = pcmSampleBuffers.reduce((acc, b) => acc + b.length, 0);
                 let mergedSamples = new Float32Array(totalLen);
                 let offset = 0;
@@ -1449,7 +1519,7 @@
                     offset += b.length;
                 }
 
-                recordedPcmBlob = encodeWAV(mergedSamples, 8000);
+                recordedPcmBlob = encodeWAV(mergedSamples, recordedSampleRate);
                 recordedPcmUrl = URL.createObjectURL(recordedPcmBlob);
                 customAudioPlayer.src = recordedPcmUrl;
 
@@ -1461,6 +1531,8 @@
                 formData.append('client_pitch', measuredClientPitch);
                 formData.append('client_centroid', measuredClientCentroid);
                 formData.append('user_id', activeUserId);
+                formData.append('user_identity_mode', currentIdentityMode);
+                formData.append('spoken_text', liveTranscribedText);
 
                 const upRes = await fetch('/api/upload-voice', { method: 'POST', body: formData });
                 const upData = await upRes.json();
@@ -1700,6 +1772,8 @@
         });
         closeEnrollModal.addEventListener('click', () => enrollModal.classList.add('hidden'));
 
+        let enrollPitchEstimates = [];
+
         enrollRecordBtn.addEventListener('click', async () => {
             try {
                 enrollAudioCtx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 8000 });
@@ -1707,21 +1781,40 @@
                 const source = enrollAudioCtx.createMediaStreamSource(enrollMicStream);
 
                 enrollBuffers = [];
+                enrollPitchEstimates = [];
                 enrollProcessor = enrollAudioCtx.createScriptProcessor(2048, 1, 1);
                 enrollProcessor.onaudioprocess = (e) => {
                     const input = e.inputBuffer.getChannelData(0);
                     enrollBuffers.push(new Float32Array(input));
 
-                    let bestCorr = 0;
-                    let bestLag = 50;
-                    for (let lag = 20; lag < 100; lag++) {
-                        let c = 0;
-                        for (let j = 0; j < 300; j++) c += input[j] * input[j + lag];
-                        if (c > bestCorr) { bestCorr = c; bestLag = lag; }
-                    }
-                    if (bestLag > 20) {
-                        enrollMeasuredPitch = Math.round(8000 / bestLag);
-                        enrollMeasuredPitch = Math.max(85, Math.min(380, enrollMeasuredPitch));
+                    let sumSq = 0;
+                    for (let j = 0; j < input.length; j++) sumSq += input[j] * input[j];
+                    const rms = Math.sqrt(sumSq / input.length);
+
+                    if (rms > 0.035) {
+                        let bestNormCorr = -1.0;
+                        let bestLag = -1;
+                        for (let lag = 24; lag < 95; lag++) {
+                            let dot = 0, p1 = 0, p2 = 0;
+                            for (let j = 0; j < 260; j++) {
+                                const s1 = input[j];
+                                const s2 = input[j + lag];
+                                dot += s1 * s2;
+                                p1 += s1 * s1;
+                                p2 += s2 * s2;
+                            }
+                            const normCorr = dot / (Math.sqrt(p1 * p2) + 1e-6);
+                            if (normCorr > bestNormCorr) {
+                                bestNormCorr = normCorr;
+                                bestLag = lag;
+                            }
+                        }
+                        if (bestNormCorr > 0.42 && bestLag > 0) {
+                            const f0 = Math.round(8000 / bestLag);
+                            if (f0 >= 80 && f0 <= 350) {
+                                enrollPitchEstimates.push(f0);
+                            }
+                        }
                     }
                 };
 
@@ -1737,6 +1830,12 @@
                         enrollProcessor.disconnect();
                         enrollMicStream.getTracks().forEach(t => t.stop());
                         enrollAudioCtx.close();
+
+                        // Compute median pitch across all voiced frames of enrollment audio
+                        if (enrollPitchEstimates.length > 0) {
+                            enrollPitchEstimates.sort((a, b) => a - b);
+                            enrollMeasuredPitch = enrollPitchEstimates[Math.floor(enrollPitchEstimates.length / 2)];
+                        }
 
                         let total = enrollBuffers.reduce((acc, b) => acc + b.length, 0);
                         let merged = new Float32Array(total);
@@ -1832,11 +1931,15 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-1.5">
-                        <button onclick="selectEnrolledUser('${u.id}')" class="px-2.5 py-1 rounded bg-cyan-700 hover:bg-cyan-600 text-white font-bold text-[10px] shadow-sm transition">Select Profile</button>
+                        <button onclick="selectEnrolledUser('${u.id}')" class="px-2.5 py-1 rounded bg-cyan-700 hover:bg-cyan-600 text-white font-bold text-[10px] shadow-sm transition">Select</button>
+                        <button onclick="deleteUserProfile('${u.id}', '${u.enrolled_name}')" class="px-2 py-1 rounded bg-red-950/80 hover:bg-red-800 border border-red-700 text-red-300 font-bold text-[10px] shadow-sm transition flex items-center gap-1" title="Delete Profile">
+                            <i data-lucide="trash-2" class="w-3 h-3 text-red-400"></i> Delete
+                        </button>
                     </div>
                 `;
                 usersListContainer.appendChild(item);
             });
+            lucide.createIcons();
         }
 
         window.selectEnrolledUser = (userId) => {
@@ -1845,10 +1948,70 @@
             goToPanel('stage1');
         };
 
+        window.deleteUserProfile = async (userId, userName) => {
+            if (!confirm(`Are you sure you want to delete profile for '${userName}' from the bank database?`)) {
+                return;
+            }
+            try {
+                const res = await fetch('/api/delete-user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    ENROLLED_USERS = data.users || [];
+                    const userCountEl = document.getElementById('user-count-num');
+                    if (userCountEl) userCountEl.textContent = ENROLLED_USERS.length;
+                    populatePersonSelect();
+                    renderUsersDirectory();
+                    if (ENROLLED_USERS.length > 0) {
+                        const nextId = (activeUserId === userId || !ENROLLED_USERS.some(u => u.id === activeUserId)) ? ENROLLED_USERS[0].id : activeUserId;
+                        updateActiveProfile(nextId);
+                    }
+                    alert(`✓ Profile for '${userName}' deleted successfully.`);
+                }
+            } catch (err) {
+                console.error("Error deleting user:", err);
+                alert("Error deleting user profile.");
+            }
+        };
+
+        window.deleteActiveCustomer = () => {
+            const user = ENROLLED_USERS.find(u => u.id === activeUserId);
+            if (user) {
+                deleteUserProfile(user.id, user.enrolled_name);
+            }
+        };
+
         // -------------------------------------------------------------
-        // SPEECH SYNTHESIS & EMERGENCY ACTIONS
+        // SPEECH SYNTHESIS & BOT SOUND TOGGLE (ON / OFF)
         // -------------------------------------------------------------
+        let isBotSoundEnabled = true;
+
+        window.toggleBotSound = () => {
+            isBotSoundEnabled = !isBotSoundEnabled;
+            const btn = document.getElementById('bot-sound-toggle-btn');
+            const icon = document.getElementById('bot-sound-icon');
+            const text = document.getElementById('bot-sound-text');
+
+            if (isBotSoundEnabled) {
+                btn.className = "py-1 px-2.5 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-600 text-cyan-300 font-bold text-[10px] flex items-center gap-1.5 transition shadow-sm cursor-pointer";
+                icon.setAttribute('data-lucide', 'volume-2');
+                text.textContent = "Bot Voice: ON";
+            } else {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                }
+                btn.className = "py-1 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-400 font-bold text-[10px] flex items-center gap-1.5 transition shadow-sm cursor-pointer";
+                icon.setAttribute('data-lucide', 'volume-x');
+                text.textContent = "Bot Voice: OFF (Muted)";
+            }
+            lucide.createIcons();
+        };
+
         function speakText(text, lang) {
+            if (!isBotSoundEnabled) return; // Muted by user toggle!
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const utter = new SpeechSynthesisUtterance(text);

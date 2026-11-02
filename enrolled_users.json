@@ -1,5 +1,49 @@
 [
   {
+    "id": "usr_hdfc_80424",
+    "bank_id": "hdfc",
+    "bank_name": "HDFC Bank",
+    "enrolled_name": "karthik",
+    "account_number": "304899120033",
+    "mobile_number": "+91 7095411716",
+    "balance": "₹35,000",
+    "pitch": 196.8,
+    "spectral_centroid": 1170.1,
+    "spectral_vector": [
+      0.3714,
+      0.42,
+      0.3924,
+      0.4117,
+      0.3809,
+      0.347,
+      0.3109
+    ],
+    "audio_url": "/static/audio/usr_hdfc_80424_voice.wav",
+    "enrolled_date": "02-Nov-2026 19:29:40"
+  },
+  {
+    "id": "usr_hdfc_31371",
+    "bank_id": "hdfc",
+    "bank_name": "HDFC Bank",
+    "enrolled_name": "sharath",
+    "account_number": "304899120033",
+    "mobile_number": "+91 98480 22338",
+    "balance": "₹35,000",
+    "pitch": 303.6,
+    "spectral_centroid": 1636.2,
+    "spectral_vector": [
+      0.3377,
+      0.3915,
+      0.4024,
+      0.3971,
+      0.3995,
+      0.359,
+      0.353
+    ],
+    "audio_url": "/static/audio/usr_hdfc_31371_voice.wav",
+    "enrolled_date": "02-Nov-2026 19:05:31"
+  },
+  {
     "id": "usr_hdfc_01",
     "bank_id": "hdfc",
     "bank_name": "HDFC Bank",
@@ -9,6 +53,15 @@
     "balance": "₹42,850",
     "pitch": 138.5,
     "spectral_centroid": 1680.0,
+    "spectral_vector": [
+      0.42,
+      0.48,
+      0.52,
+      0.36,
+      0.28,
+      0.18,
+      0.12
+    ],
     "enrolled_date": "01-Nov-2026 09:30:00"
   },
   {
@@ -21,6 +74,15 @@
     "balance": "₹18,400",
     "pitch": 165.0,
     "spectral_centroid": 1840.0,
+    "spectral_vector": [
+      0.22,
+      0.4,
+      0.55,
+      0.45,
+      0.32,
+      0.2,
+      0.15
+    ],
     "enrolled_date": "01-Nov-2026 10:15:00"
   },
   {
@@ -33,6 +95,15 @@
     "balance": "₹65,200",
     "pitch": 215.0,
     "spectral_centroid": 2150.0,
+    "spectral_vector": [
+      0.1,
+      0.25,
+      0.42,
+      0.58,
+      0.48,
+      0.3,
+      0.22
+    ],
     "enrolled_date": "01-Nov-2026 10:45:00"
   },
   {
@@ -45,32 +116,37 @@
     "balance": "₹8,650",
     "pitch": 128.0,
     "spectral_centroid": 1590.0,
+    "spectral_vector": [
+      0.55,
+      0.52,
+      0.38,
+      0.28,
+      0.18,
+      0.12,
+      0.08
+    ],
     "enrolled_date": "01-Nov-2026 11:00:00"
   },
   {
-    "id": "usr_hdfc_84704",
+    "id": "usr_hdfc_28140",
     "bank_id": "hdfc",
     "bank_name": "HDFC Bank",
-    "enrolled_name": "karthik",
+    "enrolled_name": "saripalli",
     "account_number": "304899120033",
-    "mobile_number": "+91 7095411716",
+    "mobile_number": "+91 98480 22338",
     "balance": "₹35,000",
-    "pitch": 170.0,
-    "spectral_centroid": 1224.8,
-    "audio_url": "/static/audio/usr_hdfc_84704_voice.wav",
-    "enrolled_date": "01-Nov-2026 11:26:24"
-  },
-  {
-    "id": "usr_hdfc_16311",
-    "bank_id": "hdfc",
-    "bank_name": "HDFC Bank",
-    "enrolled_name": "sariaplli",
-    "account_number": "304899120033",
-    "mobile_number": "+91 7095411716",
-    "balance": "₹35,000",
-    "pitch": 170.0,
-    "spectral_centroid": 1224.8,
-    "audio_url": "/static/audio/usr_hdfc_16311_voice.wav",
-    "enrolled_date": "01-Nov-2026 11:26:56"
+    "pitch": 183.3,
+    "spectral_centroid": 1244.8,
+    "spectral_vector": [
+      0.3713,
+      0.4173,
+      0.3863,
+      0.4148,
+      0.3873,
+      0.3343,
+      0.3239
+    ],
+    "audio_url": "/static/audio/usr_hdfc_28140_voice.wav",
+    "enrolled_date": "02-Nov-2026 19:32:09"
   }
 ]
