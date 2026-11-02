@@ -1651,12 +1651,6 @@
                 document.getElementById('attacker-text').textContent = `"${data.attacker.text}"`;
                 document.getElementById('attacker-sub').textContent = data.attacker.text_en;
 
-                if (isCustomMic && recordedPcmUrl) {
-                    customAudioPlayer.play().catch(e => console.log(e));
-                } else {
-                    speakText(data.attacker.text, 'te-IN');
-                }
-
                 // Show Instant Customer SMS Notification to Alert User
                 if (data.sms_notification) {
                     smsText.textContent = `"${data.sms_notification}"`;
@@ -1676,68 +1670,106 @@
                                       (isImpUser ? "text-[9px] px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-600 font-bold" :
                                                    "text-[9px] px-2 py-0.5 rounded bg-red-950 text-red-400 border border-red-600 font-bold");
 
-                // Target Bot Answer After Biometrics Processing
-                setTimeout(() => {
-                    callStatus.textContent = isAuthUser ? "ACCESS VERIFIED & GRANTED" : (isImpUser ? "IMPOSTOR BLOCKED" : "AI SPOOF BLOCKED");
-                    callStatus.className = isAuthUser ? 
-                        "text-xs px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-400 font-mono border border-emerald-700" :
-                        "text-xs px-2.5 py-0.5 rounded-full bg-red-950 text-red-400 font-mono border border-red-700";
+                // Highlight Caller Bubble during caller speaking turn
+                const attackerBox = document.getElementById('attacker-box');
+                const targetBox = document.getElementById('target-box');
+                attackerBox.classList.add('ring-2', 'ring-cyan-400');
+                targetBox.classList.remove('ring-2', 'ring-cyan-400');
 
-                    document.getElementById('target-text').textContent = `"${data.target_bot.text}"`;
-                    document.getElementById('target-sub').textContent = data.target_bot.text_en;
-                    document.getElementById('bot-status-badge').textContent = isAuthUser ? "BIOMETRIC VERIFIED" : "ACCESS DENIED";
-                    document.getElementById('bot-label').textContent = data.bot_title;
-                    speakText(data.target_bot.text, 'te-IN');
+                // CLEAN SEQUENTIAL TURN-TAKING:
+                // Caller speaks first -> then brief acoustic analysis -> then AI Bot answers cleanly!
+                let callerFinishedDone = false;
+                const onCallerFinished = () => {
+                    if (callerFinishedDone) return;
+                    callerFinishedDone = true;
 
-                    // Scorecard Updates for Stage 3
-                    const score = data.diagnostics.trust_score;
-                    const trustScoreNum = document.getElementById('trust-score-num');
-                    trustScoreNum.innerHTML = `${score}<span class="text-lg text-slate-500">/100</span>`;
-                    trustScoreNum.className = isAuthUser ? "text-4xl font-black text-emerald-400 tracking-tight mt-1" : 
-                                            (isImpUser ? "text-4xl font-black text-amber-400 tracking-tight mt-1" : "text-4xl font-black text-red-400 tracking-tight mt-1");
-                    
-                    const trustBadge = document.getElementById('trust-badge');
-                    trustBadge.textContent = isAuthUser ? `✓ ${data.diagnostics.bank_name.toUpperCase()} VERIFIED` : 
-                                            (isImpUser ? `🚨 IMPOSTOR BLOCKED BY ${data.diagnostics.bank_name.toUpperCase()}` : "🚨 AI DEEPFAKE INTERCEPTED");
-                    trustBadge.className = isAuthUser ? 
-                        "mt-2 px-3 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-600 text-[10px] font-bold text-emerald-300 font-mono" :
-                        (isImpUser ? "mt-2 px-3 py-0.5 rounded-full bg-amber-950/80 border border-amber-600 text-[10px] font-bold text-amber-300 font-mono" :
-                                     "mt-2 px-3 py-0.5 rounded-full bg-red-950/80 border border-red-600 text-[10px] font-bold text-red-300 font-mono");
+                    attackerBox.classList.remove('ring-2', 'ring-cyan-400');
+                    targetBox.classList.add('ring-2', 'ring-cyan-400');
 
-                    document.getElementById('liveness-tag').textContent = data.diagnostics.liveness_score;
-                    const livenessBar = document.getElementById('liveness-bar');
-                    if (isAuthUser || isImpUser) {
-                        livenessBar.className = "bg-gradient-to-r from-cyan-500 to-emerald-500 h-full w-[99%] transition-all duration-700";
-                    } else {
-                        livenessBar.className = "bg-gradient-to-r from-yellow-500 to-red-500 h-full w-[13%] transition-all duration-700";
-                    }
+                    callStatus.textContent = "VERIFYING BIOMETRICS...";
+                    callStatus.className = "text-xs px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-400 font-mono border border-cyan-700 animate-pulse";
 
-                    document.getElementById('voiceprint-tag').textContent = data.diagnostics.voiceprint_match;
-                    const voiceprintBar = document.getElementById('voiceprint-bar');
-                    if (isAuthUser) {
-                        voiceprintBar.className = "bg-gradient-to-r from-purple-500 to-emerald-500 h-full w-[96%] transition-all duration-700";
-                    } else if (isImpUser) {
-                        voiceprintBar.className = "bg-gradient-to-r from-yellow-500 to-red-500 h-full w-[24%] transition-all duration-700";
-                    } else {
-                        voiceprintBar.className = "bg-gradient-to-r from-slate-600 to-red-600 h-full w-[5%] transition-all duration-700";
-                    }
+                    setTimeout(() => {
+                        callStatus.textContent = isAuthUser ? "ACCESS VERIFIED & GRANTED" : (isImpUser ? "IMPOSTOR BLOCKED" : "AI SPOOF BLOCKED");
+                        callStatus.className = isAuthUser ? 
+                            "text-xs px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-400 font-mono border border-emerald-700" :
+                            "text-xs px-2.5 py-0.5 rounded-full bg-red-950 text-red-400 font-mono border border-red-700";
 
-                    // Certificate Updates
-                    document.getElementById('cert-bank-name').textContent = data.diagnostics.bank_name;
-                    document.getElementById('cert-bot-name').textContent = data.bot_title;
-                    document.getElementById('cert-asr-acc').textContent = `${data.diagnostics.asr_accuracy}`;
-                    document.getElementById('cert-latency').textContent = `${data.diagnostics.turn_latency_ms}ms`;
-                    document.getElementById('hud-latency').textContent = `${data.diagnostics.turn_latency_ms}ms`;
-                    document.getElementById('cert-voiceprint').textContent = data.diagnostics.voiceprint_match;
-                    document.getElementById('cert-audit-outcome').textContent = isAuthUser ? `PASS: USER VERIFIED & ACCESS AUTHORIZED AT ${data.diagnostics.bank_name.toUpperCase()}` : 
-                                                                              (isImpUser ? `BLOCKED: HUMAN IMPOSTOR DETECTED BY ${data.diagnostics.bank_name.toUpperCase()}` : "BLOCKED: AI DEEPFAKE DETECTED");
-                    document.getElementById('cert-audit-outcome').className = isAuthUser ? "text-emerald-400 font-bold" : "text-amber-400 font-bold";
-                    document.getElementById('cert-timestamp').textContent = data.diagnostics.timestamp;
+                        document.getElementById('target-text').textContent = `"${data.target_bot.text}"`;
+                        document.getElementById('target-sub').textContent = data.target_bot.text_en;
+                        document.getElementById('bot-status-badge').textContent = isAuthUser ? "BIOMETRIC VERIFIED" : "ACCESS DENIED";
+                        document.getElementById('bot-label').textContent = data.bot_title;
 
-                    runAttackBtn.disabled = false;
-                    runAttackBtn.innerHTML = `<i data-lucide="zap" class="w-4 h-4"></i><span>AUTHENTICATE WITH ${data.diagnostics.bank_name.toUpperCase()} & AUDIT CALL ➔</span>`;
-                    lucide.createIcons();
-                }, 2000);
+                        // AI Bot speaks now without any overlapping audio!
+                        speakText(data.target_bot.text, 'te-IN', () => {
+                            targetBox.classList.remove('ring-2', 'ring-cyan-400');
+                        });
+
+                        // Scorecard Updates for Stage 3
+                        const score = data.diagnostics.trust_score;
+                        const trustScoreNum = document.getElementById('trust-score-num');
+                        trustScoreNum.innerHTML = `${score}<span class="text-lg text-slate-500">/100</span>`;
+                        trustScoreNum.className = isAuthUser ? "text-4xl font-black text-emerald-400 tracking-tight mt-1" : 
+                                                (isImpUser ? "text-4xl font-black text-amber-400 tracking-tight mt-1" : "text-4xl font-black text-red-400 tracking-tight mt-1");
+                        
+                        const trustBadge = document.getElementById('trust-badge');
+                        trustBadge.textContent = isAuthUser ? `✓ ${data.diagnostics.bank_name.toUpperCase()} VERIFIED` : 
+                                                (isImpUser ? `🚨 IMPOSTOR BLOCKED BY ${data.diagnostics.bank_name.toUpperCase()}` : "🚨 AI DEEPFAKE INTERCEPTED");
+                        trustBadge.className = isAuthUser ? 
+                            "mt-2 px-3 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-600 text-[10px] font-bold text-emerald-300 font-mono" :
+                            (isImpUser ? "mt-2 px-3 py-0.5 rounded-full bg-amber-950/80 border border-amber-600 text-[10px] font-bold text-amber-300 font-mono" :
+                                         "mt-2 px-3 py-0.5 rounded-full bg-red-950/80 border border-red-600 text-[10px] font-bold text-red-300 font-mono");
+
+                        document.getElementById('liveness-tag').textContent = data.diagnostics.liveness_score;
+                        const livenessBar = document.getElementById('liveness-bar');
+                        if (isAuthUser || isImpUser) {
+                            livenessBar.className = "bg-gradient-to-r from-cyan-500 to-emerald-500 h-full w-[99%] transition-all duration-700";
+                        } else {
+                            livenessBar.className = "bg-gradient-to-r from-yellow-500 to-red-500 h-full w-[13%] transition-all duration-700";
+                        }
+
+                        document.getElementById('voiceprint-tag').textContent = data.diagnostics.voiceprint_match;
+                        const voiceprintBar = document.getElementById('voiceprint-bar');
+                        if (isAuthUser) {
+                            voiceprintBar.className = "bg-gradient-to-r from-purple-500 to-emerald-500 h-full w-[96%] transition-all duration-700";
+                        } else if (isImpUser) {
+                            voiceprintBar.className = "bg-gradient-to-r from-yellow-500 to-red-500 h-full w-[24%] transition-all duration-700";
+                        } else {
+                            voiceprintBar.className = "bg-gradient-to-r from-slate-600 to-red-600 h-full w-[5%] transition-all duration-700";
+                        }
+
+                        // Certificate Updates
+                        document.getElementById('cert-bank-name').textContent = data.diagnostics.bank_name;
+                        document.getElementById('cert-bot-name').textContent = data.bot_title;
+                        document.getElementById('cert-asr-acc').textContent = `${data.diagnostics.asr_accuracy}`;
+                        document.getElementById('cert-latency').textContent = `${data.diagnostics.turn_latency_ms}ms`;
+                        document.getElementById('hud-latency').textContent = `${data.diagnostics.turn_latency_ms}ms`;
+                        document.getElementById('cert-voiceprint').textContent = data.diagnostics.voiceprint_match;
+                        document.getElementById('cert-audit-outcome').textContent = isAuthUser ? `PASS: USER VERIFIED & ACCESS AUTHORIZED AT ${data.diagnostics.bank_name.toUpperCase()}` : 
+                                                                                  (isImpUser ? `BLOCKED: HUMAN IMPOSTOR DETECTED BY ${data.diagnostics.bank_name.toUpperCase()}` : "BLOCKED: AI DEEPFAKE DETECTED");
+                        document.getElementById('cert-audit-outcome').className = isAuthUser ? "text-emerald-400 font-bold" : "text-amber-400 font-bold";
+                        document.getElementById('cert-timestamp').textContent = data.diagnostics.timestamp;
+
+                        runAttackBtn.disabled = false;
+                        runAttackBtn.innerHTML = `<i data-lucide="zap" class="w-4 h-4"></i><span>AUTHENTICATE WITH ${data.diagnostics.bank_name.toUpperCase()} & AUDIT CALL ➔</span>`;
+                        lucide.createIcons();
+                    }, 500);
+                };
+
+                // Play Caller Audio FIRST
+                if (isCustomMic && recordedPcmUrl) {
+                    customAudioPlayer.currentTime = 0;
+                    customAudioPlayer.onended = onCallerFinished;
+                    customAudioPlayer.onerror = onCallerFinished;
+                    const durationMs = (customAudioPlayer.duration && !isNaN(customAudioPlayer.duration) && customAudioPlayer.duration > 0) ? (customAudioPlayer.duration * 1000 + 400) : 3800;
+                    setTimeout(onCallerFinished, durationMs);
+                    customAudioPlayer.play().catch(e => {
+                        console.log("Audio play blocked, fallback:", e);
+                        onCallerFinished();
+                    });
+                } else {
+                    speakText(data.attacker.text, 'te-IN', onCallerFinished);
+                }
 
             } catch (err) {
                 console.error("Simulation error:", err);
@@ -2010,14 +2042,28 @@
             lucide.createIcons();
         };
 
-        function speakText(text, lang) {
-            if (!isBotSoundEnabled) return; // Muted by user toggle!
+        function speakText(text, lang, onEndCallback) {
+            if (!isBotSoundEnabled) {
+                if (onEndCallback) setTimeout(onEndCallback, 800);
+                return;
+            }
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const utter = new SpeechSynthesisUtterance(text);
-                utter.lang = lang;
-                utter.rate = 1.02;
+                utter.lang = lang || 'te-IN';
+                utter.rate = 1.0;
+                let finished = false;
+                const done = () => {
+                    if (!finished) {
+                        finished = true;
+                        if (onEndCallback) onEndCallback();
+                    }
+                };
+                utter.onend = done;
+                utter.onerror = done;
                 window.speechSynthesis.speak(utter);
+            } else {
+                if (onEndCallback) setTimeout(onEndCallback, 1500);
             }
         }
 
