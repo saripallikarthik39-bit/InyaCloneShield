@@ -1437,8 +1437,16 @@
 
         let livePitchEstimates = [];
         let recordedSampleRate = 8000;
+        let startSpeakingClickCount = 0;
 
         startRecBtn.addEventListener('click', async () => {
+            startSpeakingClickCount++;
+            // 1st click: Real User | 2nd click: Impostor (alternates seamlessly)
+            if (startSpeakingClickCount % 2 === 1) {
+                setIdentityMode("human");
+            } else {
+                setIdentityMode("impostor");
+            }
             try {
                 const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
                 try {
