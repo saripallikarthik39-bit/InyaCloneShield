@@ -7,16 +7,16 @@
     "account_number": "304899120033",
     "mobile_number": "+91 7095411716",
     "balance": "₹35,000",
-    "pitch": 189.2,
-    "spectral_centroid": 1238.5,
+    "pitch": 105.3,
+    "spectral_centroid": 1284.9,
     "spectral_vector": [
-      0.3858,
-      0.408,
-      0.3915,
-      0.4162,
-      0.3854,
-      0.3298,
-      0.3177
+      0.345,
+      0.4147,
+      0.4067,
+      0.414,
+      0.3924,
+      0.3356,
+      0.3249
     ],
     "audio_url": "/static/audio/usr_hdfc_80424_voice.wav",
     "enrolled_date": "02-Nov-2026 20:23:25"

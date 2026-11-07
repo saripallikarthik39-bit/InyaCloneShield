@@ -829,22 +829,22 @@
         </div>
     </div>
 
-    <!-- MODAL 4: ACCOUNT FREEZE POPUP (MATCHES USER SPECIFIED UI PHOTO) -->
-    <div id="freeze-alert-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-[100] flex items-center justify-center hidden p-4 animate-fade-in">
-        <div class="bg-[#0b1324] border border-cyan-500/50 rounded-2xl max-w-md w-full p-6 shadow-2xl shadow-cyan-950/80 relative text-left">
-            <div class="text-sm font-bold text-slate-100 font-sans mb-3.5">
+    <!-- MODAL 4: ACCOUNT FREEZE POPUP (EXACT 1:1 REPLICA OF USER UI PHOTO) -->
+    <div id="freeze-alert-modal" class="fixed inset-0 bg-black/80 backdrop-blur-[2px] z-[100] flex items-center justify-center hidden p-4 animate-fade-in" onclick="if(event.target===this) closeFreezeModal()">
+        <div class="bg-[#1b252b] border border-[#2a3840] rounded-2xl max-w-[480px] w-full p-6 shadow-2xl relative text-left">
+            <div class="text-[14px] font-semibold text-slate-100 font-sans mb-3.5">
                 <span>127.0.0.1:5000 says</span>
             </div>
-            <div class="text-xs text-slate-200 leading-relaxed font-sans mb-5 space-y-2">
-                <p class="font-bold text-white flex items-center gap-1.5 text-sm">
-                    <span>🚨</span> <span>ACTION EXECUTED: Your account is frozen!</span>
+            <div class="text-[13px] text-slate-200 leading-relaxed font-sans mb-6 space-y-1">
+                <p class="font-normal text-slate-100 flex items-center gap-1.5 text-[13px]">
+                    <span>🚨</span> <span>ACTION EXECUTED: Account freeze protocol activated!</span>
                 </p>
-                <p id="freeze-modal-body" class="text-slate-300">
-                    Account freeze protocol activated! Transactions suspended via RBI Card Protection Switch. SMS alert sent to <span id="freeze-phone-display" class="font-bold text-cyan-300">+91 7095411716</span>.
+                <p id="freeze-modal-body" class="text-slate-300 text-[13px]">
+                    Transactions suspended via RBI Card Protection Switch. SMS alert sent to <span id="freeze-phone-display" class="font-medium text-slate-100">+91 7095411716</span>.
                 </p>
             </div>
             <div class="flex justify-end">
-                <button type="button" onclick="closeFreezeModal()" class="px-7 py-2 rounded-full border-2 border-cyan-400 bg-cyan-950/70 hover:bg-cyan-500 hover:text-black text-cyan-300 font-bold text-xs tracking-wider transition shadow-md shadow-cyan-900/40 cursor-pointer">
+                <button type="button" onclick="closeFreezeModal()" class="px-7 py-1.5 rounded-full bg-[#78e3f6] hover:bg-[#63dcf2] active:scale-95 text-[#0d171d] font-bold text-xs tracking-wider transition shadow border-2 border-[#5acde3] cursor-pointer">
                     OK
                 </button>
             </div>
@@ -1723,7 +1723,7 @@
                         document.getElementById('bot-label').textContent = data.bot_title;
 
                         // AI Bot speaks now in full without skipping words or overlapping audio!
-                        speakText(data.target_bot.spoken_text || data.target_bot.text, 'te-IN', () => {
+                        speakText(data.target_bot.spoken_text || data.target_bot.text, 'en-US', () => {
                             targetBox.classList.remove('ring-2', 'ring-cyan-400');
                         });
 
@@ -2072,8 +2072,28 @@
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const utter = new SpeechSynthesisUtterance(text);
-                utter.lang = lang || 'te-IN';
-                utter.rate = 1.0;
+                const voices = window.speechSynthesis.getVoices();
+
+                const teVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('te'));
+                const inVoice = voices.find(v => v.lang && v.lang.toLowerCase().includes('in'));
+                const enVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+
+                if (teVoice && (lang === 'te-IN' || lang === 'te')) {
+                    utter.voice = teVoice;
+                    utter.lang = 'te-IN';
+                } else if (inVoice) {
+                    utter.voice = inVoice;
+                    utter.lang = inVoice.lang;
+                } else if (enVoice) {
+                    utter.voice = enVoice;
+                    utter.lang = enVoice.lang;
+                } else {
+                    utter.lang = 'en-US';
+                }
+
+                utter.rate = 0.95;
+                utter.pitch = 1.0;
+
                 let finished = false;
                 const done = () => {
                     if (!finished) {
