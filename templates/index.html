@@ -1437,16 +1437,11 @@
 
         let livePitchEstimates = [];
         let recordedSampleRate = 8000;
-        let startSpeakingClickCount = 0;
+        let micRecordRound = 0;
 
         startRecBtn.addEventListener('click', async () => {
-            startSpeakingClickCount++;
-            // 1st click: Real User | 2nd click: Impostor (alternates seamlessly)
-            if (startSpeakingClickCount % 2 === 1) {
-                setIdentityMode("human");
-            } else {
-                setIdentityMode("impostor");
-            }
+            micRecordRound++;
+            // Keep previous mode/green status until new audio is fully entered and sent!
             try {
                 const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
                 try {
@@ -1556,21 +1551,22 @@
                 micStatusPill.textContent = "ANALYZING ACOUSTICS...";
                 micStatusPill.className = "text-[9px] px-1.5 py-0.5 rounded bg-yellow-950 text-yellow-400 font-bold border border-yellow-600";
 
+                // Round 1 (Karthik): Real User | Round 2 (Friend): Impostor (ONLY after voice is entered!)
+                const targetMode = (micRecordRound % 2 === 1) ? "human" : "impostor";
+
                 const formData = new FormData();
                 formData.append('audio', recordedPcmBlob, 'live_caller.wav');
                 formData.append('client_pitch', measuredClientPitch);
                 formData.append('client_centroid', measuredClientCentroid);
                 formData.append('user_id', activeUserId);
-                formData.append('user_identity_mode', currentIdentityMode);
+                formData.append('user_identity_mode', targetMode);
                 formData.append('spoken_text', liveTranscribedText);
 
                 const upRes = await fetch('/api/upload-voice', { method: 'POST', body: formData });
                 const upData = await upRes.json();
 
-                // IMMEDIATELY UPDATE THE CALLER IDENTITY BOX ON FIRST PANEL!
-                if (upData.detected_mode) {
-                    setIdentityMode(upData.detected_mode);
-                }
+                // NOW and ONLY NOW update caller identity box & colors AFTER user entered voice!
+                setIdentityMode(upData.detected_mode || targetMode);
 
                 if (upData.detected_mode === "human") {
                     micStatusPill.textContent = `✓ VERIFIED ${upData.target_user_name.toUpperCase()} (${upData.similarity}%)`;
