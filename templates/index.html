@@ -135,12 +135,6 @@
                     <i data-lucide="user-plus" class="w-4 h-4 text-purple-400"></i>
                     <span>Enroll Voice to Bank</span>
                 </button>
-
-                <!-- AI Voice Narrated Guided Tour Trigger -->
-                <button id="ai-tour-btn" onclick="toggleAiTour()" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-950/60 transition cursor-pointer animate-pulse border border-emerald-400/40" title="Start Automated AI Video Narration Tour">
-                    <i data-lucide="bot" class="w-4 h-4 text-emerald-200"></i>
-                    <span id="ai-tour-btn-text">🤖 Start AI Narrated Tour</span>
-                </button>
             </div>
         </header>
 
@@ -854,31 +848,6 @@
                     OK
                 </button>
             </div>
-        </div>
-    </div>
-
-    <!-- FLOATING AI TOUR CONTROL DOCK -->
-    <div id="ai-tour-dock" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900/95 border-2 border-emerald-500/60 shadow-2xl shadow-emerald-950/90 rounded-2xl p-3.5 backdrop-blur-xl flex items-center gap-4 text-xs font-mono hidden animate-fade-in max-w-xl w-[90%]">
-        <div class="flex items-center gap-2 shrink-0">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-            <span id="ai-tour-step-badge" class="font-bold text-emerald-400 uppercase text-[11px]">TOUR: STEP 1/8</span>
-        </div>
-        <div class="flex-1 min-w-0">
-            <div id="ai-tour-step-title" class="font-bold text-white text-xs truncate">Introducing Inya-CloneShield</div>
-            <div id="ai-tour-status-text" class="text-[11px] text-cyan-300 truncate italic">AI Narrator speaking...</div>
-        </div>
-        <div class="flex items-center gap-2 border-l border-slate-800 pl-3 shrink-0">
-            <button id="ai-tour-pause-btn" onclick="pauseAiTour()" class="py-1 px-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-bold flex items-center gap-1 transition" title="Pause or Resume Voice">
-                <i id="ai-tour-play-icon" data-lucide="pause" class="w-3.5 h-3.5 text-yellow-400"></i>
-                <span id="ai-tour-pause-text">Pause</span>
-            </button>
-            <button onclick="nextAiTourStep()" class="py-1 px-2.5 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-600 text-emerald-300 text-[11px] font-bold flex items-center gap-1 transition" title="Next Step">
-                <span>Skip</span>
-                <i data-lucide="skip-forward" class="w-3.5 h-3.5"></i>
-            </button>
-            <button onclick="stopAiTour()" class="p-1.5 rounded-lg bg-red-950/80 hover:bg-red-900 text-red-300 border border-red-700 transition" title="Exit Tour">
-                <i data-lucide="x" class="w-3.5 h-3.5"></i>
-            </button>
         </div>
     </div>
 
@@ -1609,12 +1578,6 @@
                     modeDescText.textContent = `🚨 Synthetic vocoder artifacts detected — AI Voice Clone Spoof Attack!`;
                 }
 
-                if (window.isTourRunning && window.tourWaitingForUserVoice) {
-                    setTimeout(() => {
-                        if (window.handleTourUserVoiceDone) window.handleTourUserVoiceDone();
-                    }, 1000);
-                }
-
                 if (!liveTranscribedText) {
                     const b = BANK_PROFILES[bankSelect.value];
                     liveTranscribedText = `నమస్కారం, నా ${b.name} అకౌంట్ బ్యాలెన్స్ ఎంత ఉందో దయచేసి చెప్పండి.`;
@@ -1762,11 +1725,6 @@
                         // AI Bot speaks now in full without skipping words or overlapping audio!
                         speakText(data.target_bot.spoken_text || data.target_bot.text, 'te-IN', () => {
                             targetBox.classList.remove('ring-2', 'ring-cyan-400');
-                            if (window.isTourRunning) {
-                                setTimeout(() => {
-                                    if (window.nextAiTourStep) window.nextAiTourStep();
-                                }, 1500);
-                            }
                         });
 
                         // Scorecard Updates for Stage 3
@@ -2261,232 +2219,6 @@
                 alert(`📞 REPORT LOGGED: Telephony fraud metadata pushed to National Cyber Crime Reporting Portal (Helpline 1930) for number ${phone}.`);
             }
         };
-
-        // -------------------------------------------------------------
-        // AUTOMATED AI VOICE NARRATOR & GUIDED DEMO TOUR ENGINE
-        // -------------------------------------------------------------
-        window.isTourRunning = false;
-        window.tourCurrentStep = 0;
-        window.tourWaitingForUserVoice = false;
-        window.tourPaused = false;
-
-        const tourSteps = [
-            {
-                step: 1,
-                title: "1. Dashboard & Threat Architecture",
-                text: "Welcome to the live demonstration of Inya-CloneShield, an autonomous real-time voice biometric and AI deepfake defense platform for Indian banking telephony. On screen, we have HDFC Bank with registered customer Karthik, account ending in 0033, and balance 35,000 rupees. On the right, our Three.js 3D radar visualizes incoming acoustic harmonics. Let us now test genuine customer verification.",
-                action: () => {
-                    goToPanel('stage1');
-                    updateActiveProfile('usr_hdfc_80424');
-                    highlightTourElement('enrolled-user-name');
-                }
-            },
-            {
-                step: 2,
-                title: "2. Live Mic: Genuine Customer (Karthik Speaks)",
-                text: "Step one: The authentic customer Karthik speaks into the microphone to state his banking inquiry. Karthik, please click Start Speaking and speak your inquiry in Telugu.",
-                action: () => {
-                    goToPanel('stage1');
-                    highlightTourElement('start-rec-btn');
-                },
-                waitForUserVoice: true,
-                waitPrompt: "🎤 Please click 'Start Speaking' and speak as Karthik..."
-            },
-            {
-                step: 3,
-                title: "3. Formant Biometrics Match (92.7% Real User)",
-                text: "Notice the acoustic analysis: Karthik's 7-band vocal tract formant matches at 92.7 percent as Real User. Now, we authenticate the call in our Telephony Call Arena.",
-                action: () => {
-                    highlightTourElement('run-attack-btn');
-                    setTimeout(() => {
-                        const runBtn = document.getElementById('run-attack-btn');
-                        if (runBtn && !runBtn.disabled) runBtn.click();
-                    }, 1400);
-                }
-            },
-            {
-                step: 4,
-                title: "4. The 'Two Humans' Challenge (Sharath Speaks)",
-                text: "Step two: Let us now test the critical 'Two Humans' challenge. An unauthorized caller, Sharath, calls the bank repeating Karthik's exact account number. Sharath, please speak into the microphone.",
-                action: () => {
-                    goToPanel('stage1');
-                    highlightTourElement('start-rec-btn');
-                },
-                waitForUserVoice: true,
-                waitPrompt: "🎤 Please click 'Start Speaking' and let Sharath speak..."
-            },
-            {
-                step: 5,
-                title: "5. Impostor Blocked & Fraud SMS Dispatched",
-                text: "Because vocal tract anatomy cannot be forged, the formant match drops to 34.5 percent, flagging a Human Impostor. When we authenticate, access is immediately blocked, and an automated Priority Fraud SMS alert is dispatched to Karthik's phone.",
-                action: () => {
-                    highlightTourElement('run-attack-btn');
-                    setTimeout(() => {
-                        const runBtn = document.getElementById('run-attack-btn');
-                        if (runBtn && !runBtn.disabled) runBtn.click();
-                    }, 1400);
-                }
-            },
-            {
-                step: 6,
-                title: "6. Emergency Defense: RBI Account Freeze Protocol",
-                text: "In emergencies, security teams can activate the RBI Card Protection Switch by clicking Freeze. Look at the screen: The account freeze protocol is executed immediately and transactions are suspended.",
-                action: () => {
-                    setTimeout(() => {
-                        triggerEmergencyAction('freeze');
-                        setTimeout(() => {
-                            closeFreezeModal();
-                            setTimeout(window.nextAiTourStep, 1000);
-                        }, 4000);
-                    }, 800);
-                }
-            },
-            {
-                step: 7,
-                title: "7. Financial Inclusion: APGB Telugu Kisan Assist",
-                text: "Inya-CloneShield is built for all of India. Beyond urban banking with HDFC, we support Andhra Pragathi Grameena Bank, providing a dedicated Kisan Voice Assist in Rayalaseema Telugu for rural farmers.",
-                action: () => {
-                    goToPanel('stage1');
-                    const bSel = document.getElementById('bank-select');
-                    if (bSel) {
-                        bSel.value = 'rural_bank';
-                        bSel.dispatchEvent(new Event('change'));
-                    }
-                }
-            },
-            {
-                step: 8,
-                title: "8. Summary & Conclusion",
-                text: "Operating in 265 milliseconds, resilient to 10-decibel street traffic noise, and compliant with RBI digital payment guidelines. Our complete source code is live on GitHub. Thank you for watching!",
-                action: () => {
-                    goToPanel('stage1');
-                }
-            }
-        ];
-
-        function highlightTourElement(id) {
-            document.querySelectorAll('.tour-highlight').forEach(el => el.classList.remove('tour-highlight', 'ring-4', 'ring-emerald-400', 'animate-pulse'));
-            const el = document.getElementById(id);
-            if (el) {
-                el.classList.add('tour-highlight', 'ring-4', 'ring-emerald-400', 'animate-pulse');
-            }
-        }
-
-        window.toggleAiTour = () => {
-            if (window.isTourRunning) {
-                window.stopAiTour();
-            } else {
-                window.startAiTour();
-            }
-        };
-
-        window.startAiTour = () => {
-            window.isTourRunning = true;
-            window.tourCurrentStep = 0;
-            window.tourPaused = false;
-            window.tourWaitingForUserVoice = false;
-
-            document.getElementById('ai-tour-dock').classList.remove('hidden');
-            document.getElementById('ai-tour-btn-text').textContent = "⏹️ Stop AI Tour";
-            lucide.createIcons();
-
-            window.runTourStep(0);
-        };
-
-        window.stopAiTour = () => {
-            window.isTourRunning = false;
-            window.tourWaitingForUserVoice = false;
-            window.tourPaused = false;
-            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-
-            document.getElementById('ai-tour-dock').classList.add('hidden');
-            document.getElementById('ai-tour-btn-text').textContent = "🤖 Start AI Narrated Tour";
-            document.querySelectorAll('.tour-highlight').forEach(el => el.classList.remove('tour-highlight', 'ring-4', 'ring-emerald-400', 'animate-pulse'));
-            lucide.createIcons();
-        };
-
-        window.pauseAiTour = () => {
-            if (!('speechSynthesis' in window)) return;
-            if (window.tourPaused) {
-                window.speechSynthesis.resume();
-                window.tourPaused = false;
-                document.getElementById('ai-tour-pause-text').textContent = "Pause";
-                const icon = document.getElementById('ai-tour-play-icon');
-                if (icon) icon.setAttribute('data-lucide', 'pause');
-            } else {
-                window.speechSynthesis.pause();
-                window.tourPaused = true;
-                document.getElementById('ai-tour-pause-text').textContent = "Resume";
-                const icon = document.getElementById('ai-tour-play-icon');
-                if (icon) icon.setAttribute('data-lucide', 'play');
-            }
-            lucide.createIcons();
-        };
-
-        window.nextAiTourStep = () => {
-            if (!window.isTourRunning) return;
-            window.tourCurrentStep++;
-            if (window.tourCurrentStep >= tourSteps.length) {
-                window.stopAiTour();
-            } else {
-                window.runTourStep(window.tourCurrentStep);
-            }
-        };
-
-        window.handleTourUserVoiceDone = () => {
-            if (!window.isTourRunning || !window.tourWaitingForUserVoice) return;
-            window.tourWaitingForUserVoice = false;
-            window.nextAiTourStep();
-        };
-
-        window.runTourStep = (index) => {
-            if (!window.isTourRunning) return;
-            const step = tourSteps[index];
-            if (!step) { window.stopAiTour(); return; }
-
-            document.getElementById('ai-tour-step-badge').textContent = `TOUR: STEP ${step.step}/8`;
-            document.getElementById('ai-tour-step-title').textContent = step.title;
-            document.getElementById('ai-tour-status-text').textContent = "AI Narrator speaking...";
-
-            if (step.action) step.action();
-
-            speakTourSpeech(step.text, () => {
-                if (!window.isTourRunning) return;
-                if (step.waitForUserVoice) {
-                    window.tourWaitingForUserVoice = true;
-                    document.getElementById('ai-tour-status-text').textContent = step.waitPrompt || "Waiting for mic input...";
-                    highlightTourElement('start-rec-btn');
-                } else if (step.step !== 3 && step.step !== 5 && step.step !== 6) {
-                    setTimeout(window.nextAiTourStep, 1200);
-                }
-            });
-        };
-
-        function speakTourSpeech(text, onDone) {
-            if (!('speechSynthesis' in window)) {
-                if (onDone) setTimeout(onDone, 3000);
-                return;
-            }
-            window.speechSynthesis.cancel();
-            const utter = new SpeechSynthesisUtterance(text);
-            const voices = window.speechSynthesis.getVoices();
-            const preferred = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Jenny') || v.name.includes('Aria') || v.name.includes('Zira') || v.name.includes('David'))) ||
-                             voices.find(v => v.lang.startsWith('en')) || voices[0];
-            if (preferred) utter.voice = preferred;
-            utter.rate = 1.02;
-            utter.pitch = 1.0;
-
-            let finished = false;
-            const finish = () => {
-                if (!finished) {
-                    finished = true;
-                    if (onDone) onDone();
-                }
-            };
-            utter.onend = finish;
-            utter.onerror = finish;
-            window.speechSynthesis.speak(utter);
-        }
 
         // Initialize App to Welcome Panel
         fetchEnrolledUsers();
